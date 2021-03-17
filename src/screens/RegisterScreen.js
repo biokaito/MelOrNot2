@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { IconButton, Title } from 'react-native-paper';
 
 import FormButton from '../components/FormButton';
@@ -12,7 +12,7 @@ export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { register, loading } = useContext(AuthContext);
+  const { register, loading, errEmail, errPassword, errDisplayName } = useContext(AuthContext);
 
   if(loading){
     return <Loading />;
@@ -27,18 +27,21 @@ export default function SignupScreen({ navigation }) {
             autoCapitalize="none"
             onChangeText={(userDisplayName) => setDisplayName(userDisplayName)}
         />
+        <Text>{errDisplayName}</Text>
         <FormInput
             labelName="Email"
             value={email}
             autoCapitalize="none"
             onChangeText={(userEmail) => setEmail(userEmail)}
         />
+        <Text>{errEmail}</Text>
         <FormInput
             labelName="Password"
             value={password}
             secureTextEntry={true}
             onChangeText={(userPassword) => setPassword(userPassword)}
         />
+        <Text>{errPassword}</Text>
         <FormButton
             title="Signup"
             modeValue="contained"
