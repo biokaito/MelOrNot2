@@ -1297,7 +1297,7 @@
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.10.2.tgz#3fad953380c447b7545122430a4c7a9bc8355001"
   integrity sha512-0GMWVWh5TBCYIQfVerxzDsuvhoFpK0++O9LtP3FWkwYo7EAxp6w0cftAg/8ntU1E5Wg56Ry0b6ti/YGP6g0jlg==
 
-"@firebase/auth@0.16.4":
+"@firebase/auth@0.16.4", "@firebase/auth@^0.16.4":
   version "0.16.4"
   resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.16.4.tgz#6249d80f1e974b0db122930ae9fac885eccead5c"
   integrity sha512-zgHPK6/uL6+nAyG9zqammHTF1MQpAN7z/jVRLYkDZS4l81H08b2SzApLbRfW/fmy665xqb5MK7sVH0V1wsiCNw==
@@ -1337,7 +1337,7 @@
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-2.2.0.tgz#9a3f3f2906232c3b4a726d988a6ef077f35f9093"
   integrity sha512-5kZZtQ32FIRJP1029dw+ZVNRCclKOErHv1+Xn0pw/5Fq3dxroA/ZyFHqDu+uV52AyWHhNLjCqX43ibm4YqOzRw==
 
-"@firebase/firestore@2.2.0":
+"@firebase/firestore@2.2.0", "@firebase/firestore@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-2.2.0.tgz#b7cf2d6a65b432bec43430f1d9f696c07b881e90"
   integrity sha512-/p0oR73zgAlEHgqCIt5v2m8ADOign6APkZ0QG5bJQVSDqPXjB89ktI3v8x0qtRtzKm/pd3lmyoD/raOh/ItsZA==
@@ -1933,6 +1933,13 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
+"@react-native-community/async-storage@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.12.1.tgz#25f821b4f6b13abe005ad67e47c6f1cee9f27b24"
+  integrity sha512-70WGaH3PKYASi4BThuEEKMkyAgE9k7VytBqmgPRx3MzJx9/MkspwqJGmn3QLCgHLIFUgF1pit2mWICbRJ3T3lg==
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^4.13.1":
   version "4.13.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.13.1.tgz#07de6d4dab80ec49231de1f1fbf658b4ad39b32c"
@@ -2057,6 +2064,11 @@
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
   integrity sha512-rk4sWFsmtOw8oyx8SD3KSvawwaK7gRBSEIy2TAwURyGt+3TizssXP1r8nx3zY+R7v2vYYHXZ+k2/GULAT/bcaQ==
+
+"@react-native-firebase/auth@^11.1.1":
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-11.1.1.tgz#3dde387cc14c1d5e552ba0180c04bb7dc90b593f"
+  integrity sha512-TU13JKeCs35KRzPh6dB11G/KPwOgfdh6ZhgaWwNb1O1SfHcyx7w0AFiBA7etw6gY2iaDzcR6XFwGG9ztogqkRg==
 
 "@react-navigation/core@^5.15.2":
   version "5.15.2"
