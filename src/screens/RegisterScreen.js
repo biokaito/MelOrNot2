@@ -27,27 +27,27 @@ export default function SignupScreen({ navigation }) {
             autoCapitalize="none"
             onChangeText={(userDisplayName) => setDisplayName(userDisplayName)}
         />
-        <Text>{errDisplayName}</Text>
+        <Text style={styles.error}>{errDisplayName}</Text>
         <FormInput
             labelName="Email"
             value={email}
             autoCapitalize="none"
             onChangeText={(userEmail) => setEmail(userEmail)}
         />
-        <Text>{errEmail}</Text>
+        <Text style={styles.error}>{errEmail}</Text>
         <FormInput
             labelName="Password"
             value={password}
             secureTextEntry={true}
             onChangeText={(userPassword) => setPassword(userPassword)}
         />
-        <Text>{errPassword}</Text>
+        <Text style={styles.error}>{errPassword}</Text>
         <FormButton
             title="Signup"
             modeValue="contained"
             labelStyle={styles.loginButtonLabel}
-            onPress={() => {
-              register(displayName, email, password)
+            onPress={async () => {
+              register(displayName, email, password)       
             }}
         />
         <IconButton
@@ -81,4 +81,9 @@ const styles = StyleSheet.create({
   navButton: {
     marginTop: 10,
   },
+  error:{
+    color: 'red',
+    fontStyle: 'italic',
+    //justifyContent: 'flex-start'
+  }
 });

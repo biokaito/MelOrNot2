@@ -1,3 +1,4 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React, { createContext, useState } from 'react';
 
 import { firebase } from '../firebase';
@@ -10,6 +11,8 @@ export const AuthProvider = ({ children }) =>{
     const [errEmail, setErrEmail] = useState("");
     const [errPassword , setErrPassword] = useState("");
     const [errDisplayName, setErrDisplayName] = useState("");
+    const [errEmailLogin, setErrEmailLogin] = useState("");
+    const [errPasswordLogin , setErrPasswordLogin] = useState("");
     return(
         <AuthContext.Provider
             value={{
@@ -23,10 +26,50 @@ export const AuthProvider = ({ children }) =>{
                 setErrPassword,
                 errDisplayName,
                 setErrDisplayName,
+                errEmailLogin,
+                setErrEmailLogin,
+                errPasswordLogin,
+                setErrPasswordLogin,
                 login: async ( email, password) => {
                     //To Do
+                    setErrEmailLogin("");
+                    setErrPasswordLogin("");
+                    if(email === ""){
+                        setErrEmailLogin("This field can not be blank!")
+                    }
+                    else if(password === ""){
+                        setErrPasswordLogin("This field can not be blank!")
+                    }
+                   if(email !== "" && password !== ""){
+                    setLoading(true)
+                    await firebase
+                    .auth()
+                    .signInWithEmailAndPassword(email, password)
+                    .then(async () =>{
+                        setUser(email);
+                        await setLoading(false)
+                    })
+                    .catch(err =>{
+                        if(err.code === 'auth/invalid-email'){
+                            setErrEmailLogin("That email is invalid!")
+                            setErrPasswordLogin("")
+                            setLoading(false)
+                        }
+                        else if(err.code === 'auth/user-not-found'){
+                            setErrEmailLogin("That user not found!")
+                            setErrPasswordLogin("")
+                            setLoading(false)
+                        }
+                        else if(err.code === 'auth/wrong-password'){
+                            setErrEmailLogin("")
+                            setErrPasswordLogin("That password is wrong!")
+                            setLoading(false)
+                        }
+
+                    })
+                   }
                 },
-                register: async(displayName, email, password) => {                    
+                register: async (displayName, email, password) => {                    
                     setErrEmail("");
                     setErrPassword("");
                     setErrDisplayName("");
@@ -41,26 +84,9 @@ export const AuthProvider = ({ children }) =>{
                     }
                     
                     if(email !== "" && password !== "" && displayName !== ""){
-                        setLoading(true);
+                        setLoading(!loading);
                         await firebase
-                        .auth()
-                        // .catch(err =>{
-                        //     if(err.code === 'auth/email-already-in-use'){
-                        //         setErrEmail("That email is already in use!")
-                        //         setErrPassword("")
-                        //         setLoading(!loading)
-                        //     }
-                        //     else if(err.code === 'auth/invalid-email'){
-                        //         setErrEmail("That email is invalid!")
-                        //         setErrPassword("")
-                        //         setLoading(!loading)
-                        //     }
-                        //     else if(err.code === 'auth/weak-password'){
-                        //         setErrEmail("")
-                        //         setErrPassword("That password is too weak!")
-                        //         setLoading(!loading)
-                        //     }
-                        // })
+                        .auth()                        
                         .createUserWithEmailAndPassword(email, password)
                         .then((credential) =>{
                             credential.user
@@ -69,11 +95,30 @@ export const AuthProvider = ({ children }) =>{
                                 //ToDOo
                             })
                         })                 
-                        setLoading(false)
+                        .catch(err =>{
+                            if(err.code === 'auth/email-already-in-use'){
+                                setErrEmail("That email is already in use!")
+                                setErrPassword("")
+                                setLoading(!loading)
+                            }
+                            else if(err.code === 'auth/invalid-email'){
+                                setErrEmail("That email is invalid!")
+                                setErrPassword("")
+                                setLoading(!loading)
+                            }
+                            else if(err.code === 'auth/weak-password'){
+                                setErrEmail("")
+                                setErrPassword("That password is too weak!")
+                                setLoading(!loading)
+                            }
+                        })
+
+                        await setLoading(false);
+
                     }                        
                 },
                 logout: async () => {
-
+                    setUser("")
                 }
             }}
         >
