@@ -8,6 +8,7 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) =>{
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isShowModal, setIsShowModal] = useState(false);
     const [errEmail, setErrEmail] = useState("");
     const [errPassword , setErrPassword] = useState("");
     const [errDisplayName, setErrDisplayName] = useState("");
@@ -20,6 +21,8 @@ export const AuthProvider = ({ children }) =>{
                 setUser,
                 loading,
                 setLoading,
+                isShowModal,
+                setIsShowModal,
                 errEmail,
                 setErrEmail,
                 errPassword,
@@ -46,7 +49,8 @@ export const AuthProvider = ({ children }) =>{
                     .auth()
                     .signInWithEmailAndPassword(email, password)
                     .then(async () =>{
-                        setUser(email);
+                        const user = firebase.auth().currentUser
+                        setUser(user.displayName);
                         await setLoading(false)
                     })
                     .catch(err =>{
@@ -114,6 +118,7 @@ export const AuthProvider = ({ children }) =>{
                         })
 
                         await setLoading(false);
+                        await setIsShowModal(true);
 
                     }                        
                 },

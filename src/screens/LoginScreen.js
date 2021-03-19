@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Title } from 'react-native-paper';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { Title, IconButton } from 'react-native-paper';
 
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';
@@ -18,7 +18,7 @@ export default function LoginScreen({ navigation }) {
   }
   return (
       <View style={styles.container}>
-        <Title style={styles.titleText}>Welcome!</Title>
+        <Image source={require('../images/logo.jpg')} style={{height: '30%', width: '90%', marginBottom: 20}} />
         <FormInput
             labelName="Email"
             value={email}
@@ -36,17 +36,18 @@ export default function LoginScreen({ navigation }) {
         <FormButton
             title="Login"
             modeValue="contained"
+            color="#55b3b1"
             labelStyle={styles.loginButtonLabel}
             onPress={() => {
               login(email, password)
             }}
         />
-        <FormButton
-            title="Sign up here"
-            modeValue="text"
-            uppercase={false}
-            labelStyle={styles.navButtonText}
-            onPress={() => navigation.navigate('Register')}
+        <IconButton
+            icon="keyboard-backspace"
+            size={30}
+            style={styles.navButton}
+            color="#5b3a70"
+            onPress={() => navigation.goBack()}
         />
       </View>
   );
@@ -54,7 +55,7 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -65,6 +66,8 @@ const styles = StyleSheet.create({
   },
   loginButtonLabel: {
     fontSize: 22,
+    color: 'white',
+    fontWeight: "bold"
   },
   navButtonText: {
     fontSize: 16,

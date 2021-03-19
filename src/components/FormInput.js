@@ -10,7 +10,10 @@ export default function FormInput({labelName, ...rest}){
             label={labelName}
             style={styles.input}
             numberOfLines={1}
+            underlineColor="#55b3b1"
+            placeholderTextColor="#55b3b1"
             {...rest}
+            
         />
     )
 }
