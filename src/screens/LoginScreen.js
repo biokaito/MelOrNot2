@@ -25,14 +25,14 @@ export default function LoginScreen({ navigation }) {
             autoCapitalize="none"
             onChangeText={(userEmail) => setEmail(userEmail)}
         />
-        <Text>{errEmailLogin}</Text>
+        <Text style={styles.error}>{errEmailLogin}</Text>
         <FormInput
             labelName="Password"
             value={password}
             secureTextEntry={true}
             onChangeText={(userPassword) => setPassword(userPassword)}
         />
-        <Text>{errPasswordLogin}</Text>
+        <Text style={styles.error}>{errPasswordLogin}</Text>
         <FormButton
             title="Login"
             modeValue="contained"
@@ -71,5 +71,10 @@ const styles = StyleSheet.create({
   },
   navButtonText: {
     fontSize: 16,
+  },
+  error:{
+    color: 'red',
+    fontStyle: 'italic',
+    //justifyContent: 'flex-start'
   },
 });

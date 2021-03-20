@@ -75,7 +75,7 @@ export default function HomeScreen( {navigation}){
                 >
                     <View style={styles.darkOverlay}>
                         <View style={styles.headerText}>
-                            <Text style={styles.userGreet}>
+                            <Text numberOfLines={1} style={styles.userGreet}>
                                 Hello, {user}
                             </Text>
                             <Text style={styles.userText}>
