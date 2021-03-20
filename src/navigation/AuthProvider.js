@@ -80,6 +80,9 @@ export const AuthProvider = ({ children }) =>{
                     if(displayName === ""){
                         setErrDisplayName("Please give us your name!")
                     }
+                    else if(displayName.indexOf("Dr.") !== -1 ){
+                        setErrDisplayName("Please don't use 'Dr.' in your name!")
+                    }
                     else if(email === ""){
                         setErrEmail("This field can not be blank!")
                     }

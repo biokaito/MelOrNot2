@@ -3,7 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import Loading from '../components/Loading';
 
 import AuthStack from './AuthStack';
-import HomeStack from './HomeStack';
+import HomePatientsStack from './HomePatientsStack';
+import HomeDoctorsStack from './HomeDoctorsStack';
 import { AuthContext } from './AuthProvider';
 
 export default function Routes(){
@@ -12,7 +13,14 @@ export default function Routes(){
     const [initializing, setInitializing] = useState(true);
     return(
         <NavigationContainer>
-            {user ? <HomeStack /> : <AuthStack />}
+            {
+                user ? user.indexOf('Dr.') !== -1 ? 
+                <HomeDoctorsStack /> : 
+                <HomePatientsStack /> : 
+                <AuthStack />
+            }
+            
         </NavigationContainer>
     )
 }
+

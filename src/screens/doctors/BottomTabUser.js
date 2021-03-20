@@ -21,7 +21,7 @@ export default function HomeScreen(){
     // })
     return(
         <View style={styles.container}>
-            <Title>Welcome Patients Chat<Text>{user}</Text></Title>
+            <Title>Welcome Docotr User <Text>{user}</Text></Title>
             <FormButton 
                 modeValue="contained" 
                 title="Logout" 
