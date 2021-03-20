@@ -1,5 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons  } from '@expo/vector-icons';
 import React from 'react';
 
 import HomeScreen from '../screens/doctors/BottomTabHome';
@@ -12,12 +13,83 @@ const Stack = createStackNavigator();
 export default function HomeStack(){
     const Tab = createBottomTabNavigator();
     return(
-        <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Chat" component={ChatScreen} />            
-            <Tab.Screen name="Camera" component={CameraScreen} />
-            <Tab.Screen name="News" component={NewsScreen} />
-            <Tab.Screen name="User" component={UserScreen} />
+        <Tab.Navigator
+            initialRouteName="Home"
+            tabBarOptions={{
+                activeTintColor: '#55b3b1',
+                activeBackgroundColor: '#fff',
+                keyboardHidesTabBar: false,
+                tabStyle:{
+                 borderRadius: 30,
+                 backgroundColor: '#fff',
+                 marginBottom: -20
+                },
+                labelStyle:{
+                 fontSize: 14,
+                },
+                style:{
+                    backgroundColor: '#fff',
+                    borderRadius: 30,
+                    position: 'absolute',
+                    bottom: 60,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 1,
+                    borderColor: 'gray'
+                    
+                }
+            }}
+        >
+            <Tab.Screen 
+                name="Home" 
+                component={HomeScreen}
+                options={{
+                    tabBarLabel: 'Home',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="ios-home" color={color} size={30} />
+                    ),
+                }}
+            />
+            <Tab.Screen 
+                name="Chat" 
+                component={ChatScreen} 
+                options={{
+                    tabBarLabel: 'Chat',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="ios-chatbubbles" color={color} size={30} />
+                    ),
+                }}
+            />            
+            <Tab.Screen 
+                name="Camera" 
+                component={CameraScreen} 
+                options={{
+                    tabBarLabel: 'Camera',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="ios-camera" color={color} size={30} />
+                    ),
+                }}
+            />
+            <Tab.Screen 
+                name="News" 
+                component={NewsScreen} 
+                options={{
+                    tabBarLabel: 'News',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="ios-tv" color={color} size={30} />
+                    ),
+                }}
+            />
+            <Tab.Screen 
+                name="User" 
+                component={UserScreen} 
+                options={{
+                    tabBarLabel: 'User',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="ios-body" color={color} size={30} />
+                    ),
+                }}
+            />
       </Tab.Navigator>
     )
 }
