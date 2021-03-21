@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         //justifyContent: 'center',
         //alignItems: 'center',
-        
     },
     botscreen:{
         flex: 2,

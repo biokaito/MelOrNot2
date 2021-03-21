@@ -99,6 +99,9 @@ export const AuthProvider = ({ children }) =>{
                         await firebase
                         .auth()                        
                         .createUserWithEmailAndPassword(email, password)
+                        .then(() =>{
+                            setIsShowModal(true);
+                        })
                         .then((credential) =>{
                             credential.user
                             .updateProfile({displayName: displayName})
@@ -125,7 +128,7 @@ export const AuthProvider = ({ children }) =>{
                         })
 
                         await setLoading(false);
-                        await setIsShowModal(true);
+                        
 
                     }                        
                 },
