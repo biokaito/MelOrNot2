@@ -8,7 +8,8 @@ import {View,
         Image,
         TouchableWithoutFeedback,
         Linking,
-        Share } from 'react-native';
+        Share,
+        TextInput } from 'react-native';
 import {Title} from 'react-native-paper';
 import { firebase } from '../../firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -115,8 +116,14 @@ export default function HomeScreen(){
             <ImageBackground 
                 source={require("../../images/headerNews.jpg")} 
                 imageStyle={{ borderBottomRightRadius: 100}}
-                style={styles.header}/>
-            <ImageBackground/>
+                
+                style={styles.header}>
+                    <TextInput
+                        style={styles.inputBox}
+                        placeholder= "What do you want to read?"
+                        placeholderTextColor='#666'
+                    ></TextInput>
+            </ImageBackground>
             <View style={styles.body}>
                 <View style={styles.trendContainer}>
                     <View>
@@ -194,5 +201,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginLeft: -10
-    }
+    },
+    inputBox:{
+        marginTop: 215,
+        backgroundColor: '#fff',
+        paddingLeft: 24,
+        padding: 12,
+        borderBottomRightRadius: 40,
+        borderTopRightRadius: 40,
+        width: "70%",
+    },
 })

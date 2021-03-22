@@ -24,7 +24,7 @@ export default function SignupScreen({ navigation }) {
     return <Loading />;
   }
   if(isShowModal){
-    return <Modal isVisible={isShowModal} onBackdropPress={() => closeModal()} >  
+    return <Modal animationIn="tada" animationOut="wobble" isVisible={isShowModal} onBackdropPress={() => closeModal()} >  
               <View style={styles.containerAlert}>
                   <Image 
                       source={require('../images/tick.png')}

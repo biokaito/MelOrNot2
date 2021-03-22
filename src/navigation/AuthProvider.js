@@ -53,8 +53,8 @@ export const AuthProvider = ({ children }) =>{
                     .signInWithEmailAndPassword(email, password)
                     .then(async () =>{
                         const user = firebase.auth().currentUser
-                        setUser(user.displayName);
-                        setUserUID(user.uid);
+                        await setUser(user.displayName);
+                        await setUserUID(user.uid);
                         await setLoading(false)
                     })
                     .catch(err =>{

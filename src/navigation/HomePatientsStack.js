@@ -3,18 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons  } from '@expo/vector-icons';
 import React from 'react';
 
-import HomeScreen from '../screens/patients/BottomTabHome';
+
 import ChatScreen from '../screens/patients/BottomTabChat';
 import CameraScreen from '../screens/patients/BottomTabCamera';
 import NewsScreen from '../screens/patients/BottomTabNews';
 import UserScreen from '../screens/patients/BottomTabUser';
 import HomeNavigator from '../screens/patients/HomeNavigator'
 
-import Cana from '../questions/Cana'
-import Howis from '../questions/Howis'
-import Howoften from '../questions/Howoften'
-import Whatskin from '../questions/Whatskin'
-import Whyshould from '../questions/Whyshould'
 const Stack = createStackNavigator();
 
 

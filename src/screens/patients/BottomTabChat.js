@@ -12,7 +12,7 @@ import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 
 export default function HomeScreen(){
-    const {logout, user} = useContext(AuthContext);
+    const {logout, user, userUID} = useContext(AuthContext);
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
     // useEffect(()=>{
@@ -49,7 +49,7 @@ export default function HomeScreen(){
             <Title>Welcome Patients Chat <Text>{user}</Text></Title>
             <FormButton 
                 modeValue="contained" 
-                title="Choose picture" 
+                title="No thing!" 
                 onPress={()=>{
                     choosePhotoFromLibrary()
             }} />
