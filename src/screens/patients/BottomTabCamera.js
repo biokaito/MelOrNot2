@@ -171,18 +171,28 @@ export default function BottomTabCamera(){
     const resetLink = (
       <View style={styles.resetLink}>
         <View>
-          <TouchableOpacity onPress={reset} style={styles.restartButton}>
-            <Text style={styles.reset}>
-              Restart
-            </Text>
-          </TouchableOpacity>
+        <FormButton 
+          title="Restart"
+          modeValue="contained"
+          color="#55b3b1"
+          labelStyle={styles.cameraButton}
+          onPress={() => {
+            reset();
+          }}
+        />
         </View>
         {
           !error?
           <View>
-            <TouchableOpacity style={styles.restartButton} >
-              <Text style={styles.reset} >Save</Text>
-            </TouchableOpacity>
+            <FormButton 
+              title="Save"
+              modeValue="contained"
+              color="#55b3b1"
+              labelStyle={styles.cameraButton}
+              onPress={() => {
+                reset();
+              }}
+            />
           </View>
           :
           null
@@ -256,37 +266,34 @@ export default function BottomTabCamera(){
     // }
     return(
       <View style={styles.container}>        
-    <View style={styles.innercontainer}>         
-      <TouchableOpacity
-        style={styles.imageContainer}
-        onPress={model && !predictions ? handlerSelectImage : () => {}} // Activates handler only if the model has been loaded and there are no predictions done yet
-      >
-        <Output
-          status={status}
-          image={image}
-          predictions={predictions}
-          error={error}
+      <View style={{position: 'absolute', top: 120, right: 20}}>
+        <FormButton 
+          title="Camera"
+          modeValue="contained"
+          color="#55b3b1"
+          labelStyle={styles.cameraButton}
+          onPress={() => {
+            handlerCaptureImage();
+          }}
         />
-      </TouchableOpacity>        
-      <Text style={styles.status}>
-        {statusMessage} {showReset ? resetLink : null}
-        
-      </Text>        
-    </View>      
-    <View style={styles.footer}>        
-      {
-       image ?
-       <View style={styles.yourImage}>
-        <Text style={styles.yourImageText}>Your image:</Text>
-        <Image
-          source={image}
-          style={styles.yourImageFooter}
+      </View>
+      <View style={styles.innercontainer}>         
+        <TouchableOpacity
+          style={styles.imageContainer}
+          onPress={model && !predictions ? handlerSelectImage : () => {}} // Activates handler only if the model has been loaded and there are no predictions done yet
         >
-        </Image>
-       </View>
-      : null
-     }
-    </View>
+          <Output
+            status={status}
+            image={image}
+            predictions={predictions}
+            error={error}
+          />
+        </TouchableOpacity>        
+        <Text style={styles.status}>
+          {statusMessage} {showReset ? resetLink : null}
+          
+        </Text>        
+      </View>      
     <Modal isVisible={isSave} onBackdropPress={() => {setIsSave(!isSave)}}>
         <View style={styles.containerAlert}>
           <Image 
@@ -348,7 +355,7 @@ const styles = StyleSheet.create({
     resetLink:{
       flexDirection: 'row',
       justifyContent: 'space-between',
-      width: 200
+      width: "100%"
     },
     flatList:{
       padding: 4,
@@ -371,7 +378,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
     },
     status: { 
-      marginTop: 20,
+      marginTop: 30,
       fontSize: 20
     },
     reset: { 
