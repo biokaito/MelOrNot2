@@ -129,6 +129,8 @@ export default function BottomTabCamera(){
             aspect: [4, 3], // duy trì tỷ lệ chuẩn
             //base64: true
           });
+          const imageUri = response.uri;
+          const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
           //console.log(response.uri)
           if (!response.cancelled) {
             const source = { uri: response.uri };
@@ -137,6 +139,18 @@ export default function BottomTabCamera(){
             const predictions = await model.predict(imageTensor); // send the image to the model
             setPredictions(predictions); 
             //console.log(response.uri)
+
+            uploadImage(imageUri, fileName)
+            .then(async () => {        
+                const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
+                await setImageURL(url)
+                //console.log(url)      
+                
+                alert("success")
+            })
+            .catch((e)=>{
+                alert(e)
+            })
           }
         } catch (error) {
           setError(error);
@@ -190,7 +204,7 @@ export default function BottomTabCamera(){
               color="#55b3b1"
               labelStyle={styles.cameraButton}
               onPress={() => {
-                reset();
+                saveResult();
               }}
             />
           </View>
@@ -221,49 +235,47 @@ export default function BottomTabCamera(){
     //console.log("loi la"+error);
 }
 
-    // const choosePhotoFromLibrary = async () => {
-    //     const result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true, // on Android user can rotate and crop the selected image; iOS users can only crop
-    //         quality: 1, // Chất lượng ảnh cao nhất
-    //         aspect: [4, 3], // duy trì tỷ lệ chuẩn
-    //         //base64: true
-    //     });
-    //     //console.log(result)
-    //     const imageUri = result.uri;
-    //     const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
+    const choosePhotoFromLibrary = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true, // on Android user can rotate and crop the selected image; iOS users can only crop
+            quality: 1, // Chất lượng ảnh cao nhất
+            aspect: [4, 3], // duy trì tỷ lệ chuẩn
+            //base64: true
+        });
+        //console.log(result)
+        const imageUri = result.uri;
+        const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
 
-    //     if(!result.canceled){   
-    //         uploadImage(imageUri, fileName)
-    //         .then(async () => {        
-    //             const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
-    //             await setImageURL(url)
-    //             //console.log(url)      
+        if(!result.canceled){   
+            uploadImage(imageUri, fileName)
+            .then(async () => {        
+                const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
+                await setImageURL(url)
+                //console.log(url)      
                 
-    //             alert("success")
-    //         })
-    //         .catch((e)=>{
-    //             alert(e)
-    //         })
-    //     }
-    //   }
-    // const uploadImage = async (uri, imageName) =>{
-    //     const response = await fetch(uri);
-    //     const blob = await response.blob();       
-    //     var ref = firebase.storage().ref().child("images/"+ imageName);
-    //     return ref.put(blob);
-        
-    // }
-    // const saveResult = async() => {
-    //     console.log('Image Url: ', imageURL);
-    //     console.log('Post: ', result);
-    //     firebase.firestore()
-    //     .collection(`Users/${userUID}/Results`)
-    //     .add({
-    //         imageURL: imageURL,
-    //         result: result
-    //     })
-    // }
+                alert("success")
+            })
+            .catch((e)=>{
+                alert(e)
+            })
+        }
+      }
+    const uploadImage = async (uri, imageName) =>{
+        const response = await fetch(uri);
+        const blob = await response.blob();       
+        var ref = firebase.storage().ref().child("images/"+ imageName);
+        return ref.put(blob);        
+    }
+    const saveResult = async() => {
+        console.log('Image Url: ', imageURL);
+        console.log('Post: ', "hihi");
+        firebase.firestore()
+        .collection(`Users/${userUID}/Results`)
+        .add({
+            imageURL: imageURL,
+        })
+    }
     return(
       <View style={styles.container}>        
       <View style={{position: 'absolute', top: 120, right: 20}}>

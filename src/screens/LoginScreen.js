@@ -37,7 +37,8 @@ export default function LoginScreen({ navigation }) {
             title="Login"
             modeValue="contained"
             color="#55b3b1"
-            contentStyle={{width: 90, height: 90}}
+            labelStyle={styles.loginButtonLabel}
+            //contentStyle={{width: 90, height: 90}}
             onPress={() => {
               login(email, password)
             }}

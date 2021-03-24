@@ -49,17 +49,19 @@ export default function FirstScreen({ navigation }){
                         title="Login"
                         modeValue="contained"
                         color="#55b3b1"
-                        style={styles.button}
                         labelStyle={styles.loginButtonLabel}                        
                         onPress={() => navigation.navigate('Login')}
                     />
-                    <FormButton
-                        title="Register"
-                        modeValue="contained"
-                        color="white"
-                        labelStyle={styles.registerButtonLabel}
-                        onPress={() => navigation.navigate('Register')}
-                    />
+                    <View style={{marginTop: 15}}>
+                        <FormButton
+                            title="Register"
+                            modeValue="contained"
+                            color="white"
+                            labelStyle={styles.registerButtonLabel}
+                            onPress={() => navigation.navigate('Register')}
+                        />
+                    </View>
+                    
                 </View>
                 <View>
                    <Text style={styles.bottomText}> Do you want get some help? <Text style={styles.clickText}>Get here</Text></Text>
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
     },
     buttoncontainer:{
         //flexDirection: 'row',
-        marginVertical: 30
+        marginVertical: 30,
     },
     loginButtonLabel:{
         fontSize: 22,
@@ -102,9 +104,6 @@ const styles = StyleSheet.create({
         fontSize: 22,
         color: '#64dfdf',
         fontWeight: 'bold'
-    },
-    button:{
-        borderRadius: 30
     },
     bottomText:{
         fontSize: 16,
