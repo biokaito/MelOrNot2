@@ -33,28 +33,13 @@ export default function BottomTabCamera(){
     const [predictions, setPredictions] = useState(null); 
     const [error, setError] = useState(false); 
     const [isSave, setIsSave] = useState(false);
-    const [currentDate, setCurrentDate] = useState('');
-    const [currrentTime, setCurrentTime] = useState('');
-    const [gallery, setGallery] = useState({
-        source: '', 
-        akiec: '',
-        bcc: '',
-        bkl: '',
-        df: '',
-        melanoma: '',
-        nv: '',
-        vasc: '',
-        date : '',
-        time : '',
-        id : ''
-      });
     useEffect(()=>{
         (async () =>{
-          console.log("hi")
+          console.log("Starting useEffect function..")
           setTfReady(true);
             await tf.ready();
              
-            console.log("hihi")
+            
             // khai báo và load model custom
             const model = require("../../PretrainedModel/model.json");
             const weights = require("../../PretrainedModel/weights.bin");
@@ -63,7 +48,8 @@ export default function BottomTabCamera(){
             );
             
             setModel(loadedModel); 
-                getPermissionAsync();
+            getPermissionAsync();
+            console.log("Started useEffect function")
             })(); 
     },[]);
     async function getPermissionAsync() {
@@ -138,19 +124,18 @@ export default function BottomTabCamera(){
             const imageTensor = await imageToTensor(source); 
             const predictions = await model.predict(imageTensor); // send the image to the model
             setPredictions(predictions); 
-            //console.log(response.uri)
 
             uploadImage(imageUri, fileName)
+            //console.log(imageURL);
             .then(async () => {        
-                const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
-                await setImageURL(url)
-                //console.log(url)      
-                
-                alert("success")
-            })
-            .catch((e)=>{
-                alert(e)
-            })
+              const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
+              await setImageURL(url)
+              console.log(imageURL)      
+              //alert("success")
+          })
+          .catch((e)=>{
+              alert(e)
+          })
           }
         } catch (error) {
           setError(error);
@@ -234,47 +219,58 @@ export default function BottomTabCamera(){
     showReset = true;
     //console.log("loi la"+error);
 }
-
-    const choosePhotoFromLibrary = async () => {
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true, // on Android user can rotate and crop the selected image; iOS users can only crop
-            quality: 1, // Chất lượng ảnh cao nhất
-            aspect: [4, 3], // duy trì tỷ lệ chuẩn
-            //base64: true
-        });
-        //console.log(result)
-        const imageUri = result.uri;
-        const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
-
-        if(!result.canceled){   
-            uploadImage(imageUri, fileName)
-            .then(async () => {        
-                const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
-                await setImageURL(url)
-                //console.log(url)      
-                
-                alert("success")
-            })
-            .catch((e)=>{
-                alert(e)
-            })
-        }
-      }
     const uploadImage = async (uri, imageName) =>{
-        const response = await fetch(uri);
-        const blob = await response.blob();       
-        var ref = firebase.storage().ref().child("images/"+ imageName);
-        return ref.put(blob);        
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function(e) {
+          console.log(e);
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', uri, true);
+        xhr.send(null);
+      });
+    
+      const ref = firebase
+        .storage()
+        .ref()
+        .child("images/"+ imageName);
+      const snapshot = await ref.put(blob);
+    
+      // We're done with the blob, close and release it
+      blob.close();
+      
+      //return await snapshot.ref.getDownloadURL();
     }
     const saveResult = async() => {
         console.log('Image Url: ', imageURL);
-        console.log('Post: ', "hihi");
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear();
+       if(imageURL){
+         setIsSave(true);
         firebase.firestore()
-        .collection(`Users/${userUID}/Results`)
+        .collection(`Users/${userUID}/Name/${user}/Results`)
         .add({
             imageURL: imageURL,
+            akiec : Math.round(predictions.dataSync()[0] * 100),
+            bcc : Math.round(predictions.dataSync()[1] * 100),
+            bkl : Math.round(predictions.dataSync()[2] * 100),
+            df : Math.round(predictions.dataSync()[3] * 100),
+            melanoma : Math.round(predictions.dataSync()[4] * 100),
+            nv : Math.round(predictions.dataSync()[5] * 100),
+            vasc : Math.round(predictions.dataSync()[6] * 100),
+            date : date + '/' + month + '/' + year
         })
+        await setImageURL("")
+       }
+       else{
+         alert("Please wait a second!")
+       }
+       setIsSave(false);
     }
     return(
       <View style={styles.container}>        
