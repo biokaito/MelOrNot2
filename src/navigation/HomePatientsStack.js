@@ -5,7 +5,7 @@ import React from 'react';
 
 
 import ChatScreen from '../screens/patients/BottomTabChat';
-import CameraScreen from '../screens/patients/BottomTabCamera';
+import CameraNavigator from '../screens/patients/CameraNavigator';
 import NewsScreen from '../screens/patients/BottomTabNews';
 import UserScreen from '../screens/patients/BottomTabUser';
 import HomeNavigator from '../screens/patients/HomeNavigator'
@@ -67,7 +67,7 @@ export default function HomeStack(){
             />            
             <Tab.Screen 
                 name="Camera" 
-                component={CameraScreen} 
+                component={CameraNavigator} 
                 options={{
                     tabBarLabel: 'Camera',
                     tabBarIcon: ({ color, size }) => (

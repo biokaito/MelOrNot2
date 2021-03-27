@@ -24,26 +24,6 @@ export default function HomeScreen(){
             
     //     }
     // })
-    const choosePhotoFromLibrary = async () => {
-        const result = await ImagePicker.launchImageLibraryAsync();
-
-        if(!result.canceled){
-            uploadImage(result.uri, "test")
-            .then(() => {
-                alert("success")
-            })
-            .catch((e)=>{
-                alert(e)
-            })
-        }
-      }
-    const uploadImage = async (uri, imageName) =>{
-        const response = await fetch(uri);
-        const blob = await response.blob();
-
-        var ref = firebase.storage().ref().child("images/"+ imageName);
-        return ref.put(blob);
-    }
     return(
         <View style={styles.container}>
             <Title>Welcome Patients Chat <Text>{user}</Text></Title>
@@ -51,7 +31,7 @@ export default function HomeScreen(){
                 modeValue="contained" 
                 title="No thing!" 
                 onPress={()=>{
-                    choosePhotoFromLibrary()
+                    logout()
             }} />
         </View>
     );

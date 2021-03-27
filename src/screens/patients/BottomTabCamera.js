@@ -7,7 +7,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as jpeg from "jpeg-js";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
@@ -19,8 +19,9 @@ import FormButton from '../../components/FormButton';
 import FormInput from '../../components/FormInput';
 import {AuthContext} from '../../navigation/AuthProvider';
 import Output from '../../components/Output';
+import { SafeAreaView } from 'react-native';
 
-export default function BottomTabCamera(){
+export default function BottomTabCamera({navigation}){
     var id = 0;
     const {logout, user, userUID} = useContext(AuthContext);
     const [result, setResult] = useState("");
@@ -148,6 +149,8 @@ export default function BottomTabCamera(){
               aspect: [4, 3],
               quality: 1,
           });
+          const imageUri = response.uri;
+          const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
           //console.log(response.uri)
           if (!response.cancelled) {
             const source = { uri: response.uri };
@@ -155,7 +158,19 @@ export default function BottomTabCamera(){
             const imageTensor = await imageToTensor(source); // prepare the image
             const predictions = await model.predict(imageTensor); // send the image to the model
             setPredictions(predictions); // put model prediction to the state
+
           }
+          uploadImage(imageUri, fileName)
+            //console.log(imageURL);
+            .then(async () => {        
+              const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
+              await setImageURL(url)
+              console.log(imageURL)      
+              //alert("success")
+          })
+          .catch((e)=>{
+              alert(e)
+          })
         } catch (error) {
           setError(error);
         }    
@@ -250,7 +265,7 @@ export default function BottomTabCamera(){
         var date = new Date().getDate(); //Current Date
         var month = new Date().getMonth() + 1; //Current Month
         var year = new Date().getFullYear();
-       if(imageURL){
+       if(imageURL){  
          setIsSave(true);
         firebase.firestore()
         .collection(`Users/${userUID}/Name/${user}/Results`)
@@ -270,21 +285,25 @@ export default function BottomTabCamera(){
        else{
          alert("Please wait a second!")
        }
-       setIsSave(false);
+       
     }
     return(
       <View style={styles.container}>        
-      <View style={{position: 'absolute', top: 120, right: 20}}>
-        <FormButton 
-          title="Camera"
-          modeValue="contained"
-          color="#55b3b1"
-          labelStyle={styles.cameraButton}
-          onPress={() => {
+      <SafeAreaView />
+       <View style={styles.headerLeft}>
+        <TouchableOpacity onPress={()=>{
+            navigation.navigate("RepositoryScreen")
+          }}>
+            <Icon name="camera-burst" size={45} color="black" />
+          </TouchableOpacity>
+       </View>
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={()=>{
             handlerCaptureImage();
-          }}
-        />
-      </View>
+          }}>
+            <Icon name="camera-plus" size={45} color="black" />
+          </TouchableOpacity>
+        </View>
       <View style={styles.innercontainer}>         
         <TouchableOpacity
           style={styles.imageContainer}
@@ -445,4 +464,14 @@ const styles = StyleSheet.create({
       fontSize: 20,
       textAlign: 'center',
   },
+  headerLeft:{
+    position: 'absolute', 
+    top: 60,
+    left: 25 
+  },
+  headerRight:{
+    position: 'absolute', 
+    top: 60,
+    right: 25 
+  }
 })

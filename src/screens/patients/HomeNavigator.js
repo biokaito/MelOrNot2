@@ -16,8 +16,11 @@ const HomeNavigator = () => {
             headerMode="none"
             initialRouteName="Home"
         >
-            <stack.Screen name="Home" component={HomeScreen}/>
-            <stack.Screen name="Can" component={Cana} headerMode/>
+            <stack.Screen 
+                name="Home" 
+                component={HomeScreen}
+                />
+            <stack.Screen name="Can" component={Cana}/>
             <stack.Screen name="How" component={Howis}/>
             <stack.Screen name="How Often" component={Howoften}/>
             <stack.Screen name="What" component={Whatskin}/>
