@@ -2,14 +2,14 @@ import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, TextInput, ScrollView, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import {Title} from 'react-native-paper';
 import { firebase } from '../../firebase';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import {AntDesign, MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import { SafeAreaView } from 'react-native';
 
-export default function HomeScreen(){
+export default function HomeScreen({navigation}){
     const {logout, user, userUID} = useContext(AuthContext);
     const [data, setData] = useState([])
     useEffect(()=>{
@@ -32,10 +32,15 @@ export default function HomeScreen(){
             <SafeAreaView/>
             <View style={styles.wrapper1}>
                 <View style={styles.header}>
-                <View>
-                    <Text style={styles.headerText}>HISTORY</Text>
+                  <View>
+                      <Text style={styles.headerText}>HISTORY</Text>
+                  </View>
                 </View>
-                </View>
+                <TouchableOpacity style={styles.backIcon} onPress={()=>{
+                  navigation.goBack()
+                }} >
+                  <MaterialIcons name="keyboard-backspace" size={35} color="black" />
+                </TouchableOpacity>
             </View>
             <View style={styles.wrapper2}>
                 <View>
@@ -324,5 +329,10 @@ const styles = StyleSheet.create({
       textNameTypefooter:{
         fontSize: 11,
         marginHorizontal: 5
+      },
+      backIcon:{
+        position: 'absolute',
+        top: 15,
+        left: 15
       }
 })
