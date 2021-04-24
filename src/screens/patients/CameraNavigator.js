@@ -1,10 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Button,Text} from 'react-native';
-import { Ionicons  } from '@expo/vector-icons';
 import React from 'react';
-
-import FormButton from '../../components/FormButton';
 
 import CameraScreen from './BottomTabCamera';
 import RepositoryScreen from './Repository';

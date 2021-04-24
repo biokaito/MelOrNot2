@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
-import { Title, IconButton } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';

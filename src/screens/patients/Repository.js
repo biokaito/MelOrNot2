@@ -1,13 +1,10 @@
 import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, TextInput, ScrollView, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import {Title} from 'react-native-paper';
-import { firebase } from '../../firebase';
 import {AntDesign, MaterialIcons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-
-import FormButton from '../../components/FormButton';
-import {AuthContext} from '../../navigation/AuthProvider';
 import { SafeAreaView } from 'react-native';
+
+import { firebase } from '../../firebase';
+import {AuthContext} from '../../navigation/AuthProvider';
 
 export default function HomeScreen({navigation}){
     const {logout, user, userUID} = useContext(AuthContext);

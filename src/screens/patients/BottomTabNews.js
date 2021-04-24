@@ -2,7 +2,6 @@ import React,{useState,useEffect, useContext} from 'react';
 import {View,
         Text,
         StyleSheet,
-        ActivityIndicator,
         FlatList,
         Dimensions,
         Image,
@@ -10,15 +9,10 @@ import {View,
         Linking,
         Share,
         TextInput } from 'react-native';
-import {Title} from 'react-native-paper';
-import { firebase } from '../../firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ImageBackground } from 'react-native';
 import { AntDesign } from 'react-native-vector-icons';
 
-import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
-import Loading from '../../components/Loading'
 
 const{width,height} = Dimensions.get('window');
 export default function HomeScreen(){

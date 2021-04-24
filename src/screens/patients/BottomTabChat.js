@@ -1,12 +1,7 @@
 import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text } from 'react-native';
 import {Title} from 'react-native-paper';
-import { firebase } from '../../firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ImagePicker from 'expo';
 
-//import storage from '@react-native-firebase/storage';
-//import firestore from '@react-native-firebase/firestore';
 
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';

@@ -1,8 +1,6 @@
 import React, {useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Image, } from 'react-native';
-import {Title} from 'react-native-paper';
 import { firebase } from '../../firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -12,20 +10,14 @@ import Modal from 'react-native-modal';
 import * as tf from "@tensorflow/tfjs";
 import { fetch, bundleResourceIO } from "@tensorflow/tfjs-react-native";
 
-//import storage from '@react-native-firebase/storage';
-//import firestore from '@react-native-firebase/firestore';
-
 import FormButton from '../../components/FormButton';
-import FormInput from '../../components/FormInput';
 import {AuthContext} from '../../navigation/AuthProvider';
 import Output from '../../components/Output';
 import { SafeAreaView } from 'react-native';
 
 export default function BottomTabCamera({navigation}){
-    var id = 0;
     const {logout, user, userUID} = useContext(AuthContext);
     const [result, setResult] = useState("");
-    //const [image, setImage] = useState("");
     const [imageURL, setImageURL] = useState("");
     
     const [isTfReady, setTfReady] = useState(false); 
@@ -118,7 +110,6 @@ export default function BottomTabCamera({navigation}){
           });
           const imageUri = response.uri;
           const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
-          //console.log(response.uri)
           if (!response.cancelled) {
             const source = { uri: response.uri };
             setImage(source); 
@@ -127,12 +118,10 @@ export default function BottomTabCamera({navigation}){
             setPredictions(predictions); 
 
             uploadImage(imageUri, fileName)
-            //console.log(imageURL);
             .then(async () => {        
               const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
               await setImageURL(url)
               console.log(imageURL)      
-              //alert("success")
           })
           .catch((e)=>{
               alert(e)
@@ -151,7 +140,6 @@ export default function BottomTabCamera({navigation}){
           });
           const imageUri = response.uri;
           const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1);
-          //console.log(response.uri)
           if (!response.cancelled) {
             const source = { uri: response.uri };
             setImage(source); // put image path to the state
@@ -161,12 +149,10 @@ export default function BottomTabCamera({navigation}){
 
           }
           uploadImage(imageUri, fileName)
-            //console.log(imageURL);
             .then(async () => {        
               const url = await firebase.storage().ref("images/" + fileName).getDownloadURL();
               await setImageURL(url)
-              console.log(imageURL)      
-              //alert("success")
+              console.log(imageURL)   
           })
           .catch((e)=>{
               alert(e)
@@ -258,7 +244,6 @@ export default function BottomTabCamera({navigation}){
       // We're done with the blob, close and release it
       blob.close();
       
-      //return await snapshot.ref.getDownloadURL();
     }
     const saveResult = async() => {
         console.log('Image Url: ', imageURL);

@@ -1,11 +1,8 @@
 import React,{useState, useContext} from 'react';
 import {StyleSheet, View,Text, Image, ScrollView } from 'react-native';
-import {Title} from 'react-native-paper';
 
 import FormButton from '../components/FormButton';
-import {AuthContext} from '../navigation/AuthProvider';
 import {FlatListSlider} from 'react-native-flatlist-slider';
-import Preview from '../components/Preview';
 
 export default function FirstScreen({ navigation }){
     const images =[

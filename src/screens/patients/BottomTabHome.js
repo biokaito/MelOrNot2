@@ -8,14 +8,10 @@ import {View,
         TouchableOpacity, 
         ScrollView, 
         FlatList,
-        SafeAreaView } from 'react-native';
-import {Title} from 'react-native-paper';
-import { firebase } from '../../firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+        } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Icon } from 'react-native-elements';
 
-import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 
 export default function HomeScreen( {navigation}){
