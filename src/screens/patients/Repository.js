@@ -23,7 +23,20 @@ export default function HomeScreen({navigation}){
             })
         setData(data);
         })
-    }   
+    }
+    const deleteResult = async (id) =>{
+      console.log(id)
+      await firebase
+          .firestore()
+          .collection(`Users/${userUID}/Name/${user}/Results`)
+          .doc(`${id}`)
+          .delete() 
+          .then(()=>{
+            alert(
+              "Deleted!"
+            )
+          })
+    }
     return(
         <View style={styles.container}>
             <SafeAreaView/>
@@ -48,18 +61,18 @@ export default function HomeScreen({navigation}){
                     //onChangeText={(text)=>_search(text)}
                 />
                 </View>
-                <ScrollView>
+                <SafeAreaView style={{flex: 1}}>
                 <FlatList 
                     data={data}
                     renderItem={({item,index})=>{
                     return(
-                        <TouchableOpacity style={styles.wrapper} onPress={() => { }} >
+                        <TouchableOpacity style={styles.wrapper} onPress={()=>{deleteResult(item.id)}} >
                         <View style={styles.headerComponent}>
-                            <TouchableOpacity>
-                            <View>
-                                <AntDesign name="closesquare" size={19} />
-                            </View>
-                            </TouchableOpacity>
+                          
+                              <View>
+                                  <AntDesign name="closesquare" size={22} />
+                              </View>
+
                             <View>
                             <Text style={styles.categoryText}>{item.time}</Text>
                             </View>                    
@@ -149,7 +162,7 @@ export default function HomeScreen({navigation}){
                                     <View style={{alignItems: 'center'}}>
                                     <Text style={styles.textNameTypefooter}>nv</Text>
                                     </View>
-                                </View>
+                                </View> 
                             </View>
                             </View>
                             <View style={styles.dateStyle}>
@@ -166,7 +179,7 @@ export default function HomeScreen({navigation}){
                     )
                     }}
                 />
-                </ScrollView>
+                </SafeAreaView>
             </View>
             </View>
     );
@@ -202,7 +215,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
       },
       headerComponent:{
-        flex: 1,
+        flex: 1.3,
         flexDirection: 'row',
         justifyContent: 'space-between',
         //backgroundColor: 'red'
