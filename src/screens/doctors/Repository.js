@@ -8,7 +8,7 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import FormButton from '../../components/FormButton';
 
 export default function HomeScreen({navigation}){
-    const {userEmail, user, userUID} = useContext(AuthContext);
+    const { userEmail,user, userUID} = useContext(AuthContext);
     const [data, setData] = useState([])
     useEffect(()=>{
         getData()
@@ -63,7 +63,7 @@ export default function HomeScreen({navigation}){
                 />
                 </View>
                 <SafeAreaView style={{flex: 1}}>
-                {data==""?
+                {data==""? 
                 <View style={styles.haveNoResult}>
                     <Text style={styles.textHaveNoResult}>Have no result</Text>
                     <FormButton 
@@ -73,125 +73,125 @@ export default function HomeScreen({navigation}){
                           navigation.goBack()
                     }} />
                 </View>
-                :
+                : 
                 <FlatList 
-                    data={data}
-                    renderItem={({item,index})=>{
-                    return(
-                        <TouchableOpacity style={styles.wrapper} onPress={()=>{deleteResult(item.id)}} >
-                        <View style={styles.headerComponent}>
-                          
-                              <View>
-                                  <AntDesign name="closesquare" size={22} />
-                              </View>
+                data={data}
+                renderItem={({item,index})=>{
+                return(
+                    <TouchableOpacity style={styles.wrapper} onPress={()=>{deleteResult(item.id)}} >
+                    <View style={styles.headerComponent}>
+                      
+                          <View>
+                              <AntDesign name="closesquare" size={22} />
+                          </View>
 
+                        <View>
+                        <Text style={styles.categoryText}>{item.time}</Text>
+                        </View>                    
+                    </View>
+
+                    <View style={styles.middleComponent}>
+                        <View style={styles.imageView}>
+                            <Image source={{uri: item.imageURL}} style={styles.imageSave} />
+                        </View>
+                        <View style={styles.scrollViewInside}>
+                        <View style={styles.headerInside}>                        
                             <View>
-                            <Text style={styles.categoryText}>{item.time}</Text>
-                            </View>                    
-                        </View>
-
-                        <View style={styles.middleComponent}>
-                            <View style={styles.imageView}>
-                                <Image source={{uri: item.imageURL}} style={styles.imageSave} />
-                            </View>
-                            <View style={styles.scrollViewInside}>
-                            <View style={styles.headerInside}>                        
-                                <View>
-                                <ImageBackground
-                                    source={require('../../images/circle.png')}
-                                    style={styles.imageBackground}
-                                >
-                                    <Text style={styles.textNumberType}>{item.akiec}</Text>
-                                </ImageBackground>
-                                <View style={{alignItems: 'center'}}>
-                                    <Text style={styles.textNameType}>akiec</Text>
-                                </View>
-                                </View>
-                                <View>
-                                <ImageBackground
-                                    source={require('../../images/circle.png')}
-                                    style={styles.imageBackground}
-                                >
-                                    <Text style={styles.textNumberType}>{item.melanoma}</Text>
-                                </ImageBackground>
-                                <View style={{alignItems: 'center'}}>
-                                    <Text style={styles.textNameType}>mel</Text>
-                                </View>
-                                </View>
-                                <View>
-                                <ImageBackground
-                                    source={require('../../images/circle.png')}
-                                    style={styles.imageBackground}
-                                >
-                                    <Text style={styles.textNumberType}>{item.vasc}</Text>
-                                </ImageBackground>
-                                <View style={{alignItems: 'center'}}>
-                                    <Text style={styles.textNameType}>vasc</Text>
-                                </View>
-                                </View>
-                            </View>
-                            <View style={styles.footerInside}>
-                                <View>
-                                    <ImageBackground
-                                    source={require('../../images/circle.png')}
-                                    style={styles.imageBackgroundfooter}
-                                    >
-                                    <Text style={styles.textNumberType}>{item.bcc}</Text>
-                                    </ImageBackground>
-                                    <View style={{alignItems: 'center'}}>
-                                    <Text style={styles.textNameTypefooter}>bcc</Text>
-                                    </View>
-                                </View>
-                                <View>
-                                    <ImageBackground
-                                    source={require('../../images/circle.png')}
-                                    style={styles.imageBackgroundfooter}
-                                    >
-                                    <Text style={styles.textNumberType}>{item.bkl}</Text>
-                                    </ImageBackground>
-                                    <View style={{alignItems: 'center'}}>
-                                    <Text style={styles.textNameTypefooter}>bkl</Text>
-                                    </View>
-                                </View>
-                                <View>
-                                    <ImageBackground
-                                    source={require('../../images/circle.png')}
-                                    style={styles.imageBackgroundfooter}
-                                    >
-                                    <Text style={styles.textNumberType}>{item.df}</Text>
-                                    </ImageBackground>
-                                    <View style={{alignItems: 'center'}}>
-                                    <Text style={styles.textNameTypefooter}>df</Text>
-                                    </View>
-                                </View>
-                                <View>
-                                    <ImageBackground
-                                    source={require('../../images/circle.png')}
-                                    style={styles.imageBackgroundfooter}
-                                    >
-                                    <Text style={styles.textNumberType}>{item.nv}</Text>
-                                    </ImageBackground>
-                                    <View style={{alignItems: 'center'}}>
-                                    <Text style={styles.textNameTypefooter}>nv</Text>
-                                    </View>
-                                </View> 
+                            <ImageBackground
+                                source={require('../../images/circle.png')}
+                                style={styles.imageBackground}
+                            >
+                                <Text style={styles.textNumberType}>{item.akiec}</Text>
+                            </ImageBackground>
+                            <View style={{alignItems: 'center'}}>
+                                <Text style={styles.textNameType}>akiec</Text>
                             </View>
                             </View>
-                            <View style={styles.dateStyle}>
-                            <Text style={styles.dateText}>{item.date}</Text>
+                            <View>
+                            <ImageBackground
+                                source={require('../../images/circle.png')}
+                                style={styles.imageBackground}
+                            >
+                                <Text style={styles.textNumberType}>{item.melanoma}</Text>
+                            </ImageBackground>
+                            <View style={{alignItems: 'center'}}>
+                                <Text style={styles.textNameType}>mel</Text>
+                            </View>
+                            </View>
+                            <View>
+                            <ImageBackground
+                                source={require('../../images/circle.png')}
+                                style={styles.imageBackground}
+                            >
+                                <Text style={styles.textNumberType}>{item.vasc}</Text>
+                            </ImageBackground>
+                            <View style={{alignItems: 'center'}}>
+                                <Text style={styles.textNameType}>vasc</Text>
+                            </View>
                             </View>
                         </View>
-
-                        <View style={styles.crossbar} />
-
-                        <View style={styles.bottomComponent}>
-                            
+                        <View style={styles.footerInside}>
+                            <View>
+                                <ImageBackground
+                                source={require('../../images/circle.png')}
+                                style={styles.imageBackgroundfooter}
+                                >
+                                <Text style={styles.textNumberType}>{item.bcc}</Text>
+                                </ImageBackground>
+                                <View style={{alignItems: 'center'}}>
+                                <Text style={styles.textNameTypefooter}>bcc</Text>
+                                </View>
+                            </View>
+                            <View>
+                                <ImageBackground
+                                source={require('../../images/circle.png')}
+                                style={styles.imageBackgroundfooter}
+                                >
+                                <Text style={styles.textNumberType}>{item.bkl}</Text>
+                                </ImageBackground>
+                                <View style={{alignItems: 'center'}}>
+                                <Text style={styles.textNameTypefooter}>bkl</Text>
+                                </View>
+                            </View>
+                            <View>
+                                <ImageBackground
+                                source={require('../../images/circle.png')}
+                                style={styles.imageBackgroundfooter}
+                                >
+                                <Text style={styles.textNumberType}>{item.df}</Text>
+                                </ImageBackground>
+                                <View style={{alignItems: 'center'}}>
+                                <Text style={styles.textNameTypefooter}>df</Text>
+                                </View>
+                            </View>
+                            <View>
+                                <ImageBackground
+                                source={require('../../images/circle.png')}
+                                style={styles.imageBackgroundfooter}
+                                >
+                                <Text style={styles.textNumberType}>{item.nv}</Text>
+                                </ImageBackground>
+                                <View style={{alignItems: 'center'}}>
+                                <Text style={styles.textNameTypefooter}>nv</Text>
+                                </View>
+                            </View> 
                         </View>
-                        </TouchableOpacity>
-                    )
-                    }}
-                />  
-              }
+                        </View>
+                        <View style={styles.dateStyle}>
+                        <Text style={styles.dateText}>{item.date}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.crossbar} />
+
+                    <View style={styles.bottomComponent}>
+                        
+                    </View>
+                    </TouchableOpacity>
+                )
+                }}
+            />
+                }
                 </SafeAreaView>
             </View>
             </View>
@@ -205,9 +205,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
       },
-      header:{
-        flexDirection: 'row'
-      },
       haveNoResult:{
         flex: 0.8,
         backgroundColor: '#EEEEEE',
@@ -218,6 +215,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '400',
         marginBottom: 15
+      },
+      header:{
+        flexDirection: 'row'
       },
       headerText:{
         fontSize: 25,

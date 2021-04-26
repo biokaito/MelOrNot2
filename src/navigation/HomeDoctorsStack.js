@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons  } from '@expo/vector-icons';
 import React from 'react';
 
-import HomeScreen from '../screens/doctors/BottomTabHome';
+import HomeNavigator from '../screens/doctors/HomeNavigator';
 import ChatScreen from '../screens/doctors/BottomTabChat';
-import CameraScreen from '../screens/doctors/BottomTabCamera';
+import CameraNavigator from '../screens/doctors/CameraNavigator';
 import NewsScreen from '../screens/doctors/BottomTabNews';
 import UserScreen from '../screens/doctors/BottomTabUser';
 const Stack = createStackNavigator();
@@ -42,11 +42,11 @@ export default function HomeStack(){
         >
             <Tab.Screen 
                 name="Home" 
-                component={HomeScreen}
+                component={HomeNavigator}
                 options={{
-                    tabBarLabel: 'Home',
+                    tabBarLabel: 'Repo',
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="ios-home" color={color} size={30} />
+                        <Ionicons name="document-attach" color={color} size={30} />
                     ),
                 }}
             />
@@ -62,7 +62,7 @@ export default function HomeStack(){
             />            
             <Tab.Screen 
                 name="Camera" 
-                component={CameraScreen} 
+                component={CameraNavigator} 
                 options={{
                     tabBarLabel: 'Camera',
                     tabBarIcon: ({ color, size }) => (

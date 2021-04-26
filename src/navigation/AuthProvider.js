@@ -8,6 +8,7 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) =>{
     const [user, setUser] = useState(null);
     const [userUID, setUserUID] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isShowModal, setIsShowModal] = useState(false);
     const [errEmail, setErrEmail] = useState("");
@@ -22,6 +23,8 @@ export const AuthProvider = ({ children }) =>{
                 setUser,
                 userUID,
                 setUserUID,
+                userEmail,
+                setUserEmail,
                 loading,
                 setLoading,
                 isShowModal,
@@ -55,6 +58,7 @@ export const AuthProvider = ({ children }) =>{
                         const user = firebase.auth().currentUser
                         await setUser(user.displayName);
                         await setUserUID(user.uid);
+                        await setUserEmail(user.email);
                         await setLoading(false)
                     })
                     .catch(err =>{

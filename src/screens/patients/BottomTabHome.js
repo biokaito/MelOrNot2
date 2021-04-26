@@ -15,7 +15,7 @@ import { Icon } from 'react-native-elements';
 import {AuthContext} from '../../navigation/AuthProvider';
 
 export default function HomeScreen( {navigation}){
-    const {logout,userUID, user} = useContext(AuthContext);
+    const {userEmail,userUID, user} = useContext(AuthContext);
     const [name, setName] = useState("");
     const [isSeenWhy,setIsSeenWhy] = useState(false);
     const [isSeenCana,setIsSeenCana] = useState(false);
@@ -72,7 +72,7 @@ export default function HomeScreen( {navigation}){
                     <View style={styles.darkOverlay}>
                         <View style={styles.headerText}>
                             <Text numberOfLines={1} style={styles.userGreet}>
-                                Hello, {user}
+                                Hello, {userEmail}
                             </Text>
                             <Text style={styles.userText}>
                                 How do you doing today?

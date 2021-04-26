@@ -16,7 +16,7 @@ import Output from '../../components/Output';
 import { SafeAreaView } from 'react-native';
 
 export default function BottomTabCamera({navigation}){
-    const {logout, user, userUID} = useContext(AuthContext);
+    const {userEmail, user, userUID} = useContext(AuthContext);
     const [result, setResult] = useState("");
     const [imageURL, setImageURL] = useState("");
     
@@ -253,7 +253,7 @@ export default function BottomTabCamera({navigation}){
        if(imageURL){  
          setIsSave(true);
         firebase.firestore()
-        .collection(`Users/${userUID}/Name/${user}/Results`)
+        .collection(`Users/${userEmail}/Results`)
         .add({
             imageURL: imageURL,
             akiec : Math.round(predictions.dataSync()[0] * 100),
