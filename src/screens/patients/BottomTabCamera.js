@@ -14,11 +14,13 @@ import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import Output from '../../components/Output';
 import { SafeAreaView } from 'react-native';
+import Loading from '../../components/Loading'
 
 export default function BottomTabCamera({navigation}){
     const {userEmail, user, userUID} = useContext(AuthContext);
     const [result, setResult] = useState("");
     const [imageURL, setImageURL] = useState("");
+    const [loading,setLoading] = useState(false)
     
     const [isTfReady, setTfReady] = useState(false); 
     const [model, setModel] = useState(null); 
@@ -26,6 +28,9 @@ export default function BottomTabCamera({navigation}){
     const [predictions, setPredictions] = useState(null); 
     const [error, setError] = useState(false); 
     const [isSave, setIsSave] = useState(false);
+    if(loading){
+      return <Loading />
+    }
     useEffect(()=>{
         (async () =>{
           console.log("Starting useEffect function..")

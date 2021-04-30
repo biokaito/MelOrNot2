@@ -1,4 +1,4 @@
-import React,{useState,useEffect, useContext} from 'react';
+import React,{useState,useEffect, useContext, useRef} from 'react';
 import {StyleSheet, View, Text } from 'react-native';
 import {Title} from 'react-native-paper';
 import { firebase } from '../../firebase';
@@ -11,15 +11,11 @@ import {AuthContext} from '../../navigation/AuthProvider';
 export default function HomeScreen({navigation}){
     const {logout, user} = useContext(AuthContext);
     const [email, setEmail] = useState("");
-    // useEffect(()=>{
-    //     const user =  firebase.auth().currentUser
-    //     if (user.displayName){
-    //     setName(user.displayName)
-    //     }
-    //     else{
-            
-    //     }
-    // })
+    const [data,setData] = useState([])
+    const valueRef = useRef();
+    useEffect(()=>{
+        //console.log(data);
+    },[data])
     const getData = async(email) =>{
         await firebase
         .firestore()
@@ -29,20 +25,9 @@ export default function HomeScreen({navigation}){
             snapshot.forEach(doc =>{
                 data.push({...doc.data(), id: doc.id})
             })
-        setData(data);
+            setData(data)
         })
-    }
-    const search =  async(email)=>{
-        await admin
-        .auth()
-        .getUserByEmail(email)
-        .then((userRecord) => {
-            // See the UserRecord reference doc for the contents of userRecord.
-            console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-        })
-        .catch((error) => {
-            console.log('Error fetching user data:', error);
-        });
+        
     }
     return(
         <View style={styles.container}>
@@ -55,7 +40,16 @@ export default function HomeScreen({navigation}){
                 modeValue="contained" 
                 title="Search" 
                 onPress={()=>{
+                    setData([])
                     getData(email)
+                    if(!data.length){
+                        console.log(data, valueRef.current)
+                        console.log("have no data")
+                    }
+                    else{
+                        console.log(data,valueRef.current)
+                        console.log("have data")
+                    }
             }} />
         </View>
     );

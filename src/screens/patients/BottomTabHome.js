@@ -72,7 +72,7 @@ export default function HomeScreen( {navigation}){
                     <View style={styles.darkOverlay}>
                         <View style={styles.headerText}>
                             <Text numberOfLines={1} style={styles.userGreet}>
-                                Hello, {userEmail}
+                                Hello, {user}
                             </Text>
                             <Text style={styles.userText}>
                                 How do you doing today?
