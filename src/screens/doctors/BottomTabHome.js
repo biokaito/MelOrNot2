@@ -12,23 +12,35 @@ export default function HomeScreen({navigation}){
     const {logout, user} = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [data,setData] = useState([])
-    const valueRef = useRef();
     useEffect(()=>{
-        //console.log(data);
-    },[data])
+              setData([])
+    },[])
     const getData = async(email) =>{
-        await firebase
-        .firestore()
-        .collection(`Users/${email}/Results`)
-        .onSnapshot(snapshot =>{
-            let data = [];
-            snapshot.forEach(doc =>{
-                data.push({...doc.data(), id: doc.id})
+        if(email==""){
+            alert("Input can not empty!")
+        }
+        else{
+            await firebase
+            .firestore()
+            .collection(`Users/${email}/Results`)
+            .onSnapshot(snapshot =>{
+                let data = [];
+                snapshot.forEach(doc =>{
+                    data.push({...doc.data(), id: doc.id})
+                })
+                setData(data)
+                if(data.length){
+                    navigation.navigate("MedicalRecord", email)
+                }
+                else{
+                    alert("Cann't find data")
+                }
             })
-            setData(data)
-        })
+            //console.log(data, 2)
+        }      
         
     }
+    
     return(
         <View style={styles.container}>
             <FormInput
@@ -40,16 +52,9 @@ export default function HomeScreen({navigation}){
                 modeValue="contained" 
                 title="Search" 
                 onPress={()=>{
-                    setData([])
-                    getData(email)
-                    if(!data.length){
-                        console.log(data, valueRef.current)
-                        console.log("have no data")
-                    }
-                    else{
-                        console.log(data,valueRef.current)
-                        console.log("have data")
-                    }
+                    //console.log(data, 1) // old data
+                    getData(email) // change data
+                    //console.log(data,3) // still old data
             }} />
         </View>
     );

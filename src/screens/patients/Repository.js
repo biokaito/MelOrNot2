@@ -2,6 +2,7 @@ import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, TextInput, ScrollView, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import {AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
+import Modal from 'react-native-modal';
 
 import { firebase } from '../../firebase';
 import {AuthContext} from '../../navigation/AuthProvider';
@@ -88,7 +89,7 @@ export default function HomeScreen({navigation}){
                     data={data}
                     renderItem={({item,index})=>{
                     return(
-                        <TouchableOpacity style={styles.wrapper} onPress={()=>{deleteResult(item.id)}} >
+                        <TouchableOpacity style={styles.wrapper} onPress={()=>{console.log(index)}} >
                         <View style={styles.headerComponent}>
                           
                               <View>
