@@ -34,22 +34,6 @@ export default function HomeScreen({route, navigation}){
     if(loading){
       return <Loading />;
     }
-    const deleteResult = async (id) =>{
-      await setLoading(true)
-      console.log(id)
-
-      await firebase
-          .firestore()
-          .collection(`Users/${userEmail}/Results`)
-          .doc(`${id}`)
-          .delete() 
-          .then(()=>{
-            alert(
-              "Deleted!"
-            )
-            setLoading(false)
-          })
-    }
     return(
         <View style={styles.container}>
             <SafeAreaView/>
@@ -90,13 +74,12 @@ export default function HomeScreen({route, navigation}){
                     data={data}
                     renderItem={({item,index})=>{
                     return(
-                        <TouchableOpacity style={styles.wrapper} onPress={()=>{console.log(index)}} >
+                        <TouchableOpacity style={styles.wrapper} onPress={()=>{navigation.navigate("DetailRecord", {
+                          item: item,
+                          userEmail: userEmail,
+                          id: item.id
+                          })}} >
                         <View style={styles.headerComponent}>
-                          
-                              <View>
-                                  <AntDesign name="closesquare" size={22} />
-                              </View>
-
                             <View>
                             <Text style={styles.categoryText}>{item.time}</Text>
                             </View>                    
@@ -251,7 +234,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
       },
       headerComponent:{
-        flex: 1.3,
         flexDirection: 'row',
         justifyContent: 'space-between',
         //backgroundColor: 'red'
