@@ -17,7 +17,7 @@ export default function HomeScreen({navigation}){
         setLoading(true)
         getData()
         setLoading(false)
-    },[data])
+    },[])
     const getData = () =>{
         firebase
         .firestore()
@@ -35,18 +35,17 @@ export default function HomeScreen({navigation}){
     }
     const deleteResult = async (id) =>{
       await setLoading(true)
-      console.log(id)
-
       await firebase
           .firestore()
           .collection(`Users/${userEmail}/Results`)
           .doc(`${id}`)
           .delete() 
           .then(()=>{
+            setLoading(false)
             alert(
               "Deleted!"
             )
-            setLoading(false)
+            
           })
     }
     return(
@@ -89,7 +88,7 @@ export default function HomeScreen({navigation}){
                     data={data}
                     renderItem={({item,index})=>{
                     return(
-                        <TouchableOpacity style={styles.wrapper} onPress={()=>{console.log(index)}} >
+                        <TouchableOpacity style={styles.wrapper} onPress={()=>{deleteResult(item.id)}} >
                         <View style={styles.headerComponent}>
                           
                               <View>

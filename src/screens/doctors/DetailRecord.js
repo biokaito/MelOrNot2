@@ -2,7 +2,7 @@ import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, SafeAreaView,ScrollView,Image, TouchableOpacity } from 'react-native';
 import {Title} from 'react-native-paper';
 import { firebase } from '../../firebase';
-import {MaterialIcons } from '@expo/vector-icons';
+import {MaterialIcons, AntDesign } from '@expo/vector-icons';
 
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
@@ -12,7 +12,10 @@ import Loading from '../../components/Loading'
 export default function DetailRecord({route, navigation}){
     const {logout, user} = useContext(AuthContext);
     const [name, setName] = useState("");
+    const [ID, setID] = useState("");
+    const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
+    const [imageURL, setImageURL] = useState("");
     const [akiec,setAkiec] = useState("")
     const [bcc,setBcc] = useState("")
     const [bkl,setBkl] = useState("")
@@ -20,10 +23,35 @@ export default function DetailRecord({route, navigation}){
     const [melanoma,setMelanoma] = useState("")
     const [nv,setNv] = useState("")
     const [vasc,setVasc] = useState("")
+    const iTemp = {
+        akiec: akiec.toString(),
+        bcc: bcc.toString(),
+        bkl: bkl.toString(),
+        df: df.toString(),
+        melanoma: melanoma.toString(),
+        nv: nv.toString(),
+        vasc: vasc.toString(),
+    }
     const {item, userEmail, id} = route.params
+    
 
-    useEffect(()=>{
-        console.log(id)
+    useEffect( ()=>{
+        console.log(item)
+        setValue(item)      
+        setEmail(userEmail)
+        setID(id)  
+        return () => {
+            setAkiec("")
+            setBcc("")
+            setBkl("")
+            setDf("")
+            setMelanoma("")
+            setNv("")
+            setVasc("") 
+          };
+    },[])
+    const setValue = (item) => {
+        setImageURL(item.imageURL)
         setAkiec(item.akiec.toString())
         setBcc(item.bcc.toString())
         setBkl(item.bkl.toString())
@@ -31,26 +59,25 @@ export default function DetailRecord({route, navigation}){
         setMelanoma(item.melanoma.toString())
         setNv(item.nv.toString())
         setVasc(item.vasc.toString())
-    },[])
-    
+    }
     const saveResult = async ()=>{
         if(akiec=="" || bcc=="" ||bkl=="" ||df=="" ||melanoma=="" ||nv=="" ||vasc==""){
             alert("Something is empty!!")
         }
         else{
             await setLoading(true)
-            await firebase
+            await firebase 
             .firestore()
-            .collection(`Users/${userEmail}/Results`)
-            .doc(`${id}`)
+            .collection(`Users/${email}/Results`)
+            .doc(`${ID}`) 
             .update({
-                akiec : akiec,
-                bcc : bcc,
-                bkl : bkl,
-                df : df,
-                melanoma : melanoma,
-                nv : nv,
-                vasc : vasc,
+                akiec : iTemp.akiec,
+                bcc : iTemp.bcc,
+                bkl : iTemp.bkl,
+                df : iTemp.df,
+                melanoma : iTemp.melanoma,
+                nv : iTemp.nv,
+                vasc : iTemp.vasc,
             })
             .then( async() => {
                 setLoading(false)
@@ -75,9 +102,17 @@ export default function DetailRecord({route, navigation}){
                     }} >
                     <MaterialIcons name="save-alt" size={35} color="black" />
                 </TouchableOpacity>
-                <Image source={{uri: item.imageURL}} style={styles.image} />
+                <Image source={{uri: imageURL}} style={styles.image} />
             </View>
             <View style={styles.footer}>
+                <View style={styles.trendContainer}>
+                    <View>
+                        <Text style={styles.trendText}>The proportion of diseases</Text>
+                    </View>
+                    <View>
+                        <MaterialIcons name="add-to-queue" size={25} />
+                    </View>
+                </View>
                 <ScrollView 
                     style={styles.scrollView}
                     contentContainerStyle={styles.contentScrollView}
@@ -189,5 +224,17 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 15,
         right: -70
-    }
+    },
+    trendContainer:{
+        flexDirection:"row",
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginVertical: 10,
+        marginHorizontal: 50
+    },
+    trendText:{
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginLeft: 0
+    },
 })

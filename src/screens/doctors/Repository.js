@@ -6,13 +6,15 @@ import { SafeAreaView } from 'react-native';
 import { firebase } from '../../firebase';
 import {AuthContext} from '../../navigation/AuthProvider';
 import FormButton from '../../components/FormButton';
+import Loading from '../../components/Loading'
 
 export default function HomeScreen({navigation}){
     const { userEmail,user, userUID} = useContext(AuthContext);
     const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
     useEffect(()=>{
         getData()
-    },[data])
+    },[])
     const getData = () =>{
         firebase
         .firestore()
@@ -26,6 +28,7 @@ export default function HomeScreen({navigation}){
         })
     }
     const deleteResult = async (id) =>{
+      await setLoading(true)
       console.log(id)
       await firebase
           .firestore()
@@ -33,10 +36,14 @@ export default function HomeScreen({navigation}){
           .doc(`${id}`)
           .delete() 
           .then(()=>{
+            setLoading(false)
             alert(
               "Deleted!"
             )
           })
+    }
+    if(loading){
+      return <Loading />;
     }
     return(
         <View style={styles.container}>
