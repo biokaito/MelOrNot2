@@ -23,15 +23,6 @@ export default function DetailRecord({route, navigation}){
     const [melanoma,setMelanoma] = useState("")
     const [nv,setNv] = useState("")
     const [vasc,setVasc] = useState("")
-    const iTemp = {
-        akiec: akiec.toString(),
-        bcc: bcc.toString(),
-        bkl: bkl.toString(),
-        df: df.toString(),
-        melanoma: melanoma.toString(),
-        nv: nv.toString(),
-        vasc: vasc.toString(),
-    }
     const {item, userEmail, id} = route.params
     
 
@@ -71,13 +62,13 @@ export default function DetailRecord({route, navigation}){
             .collection(`Users/${email}/Results`)
             .doc(`${ID}`) 
             .update({
-                akiec : iTemp.akiec,
-                bcc : iTemp.bcc,
-                bkl : iTemp.bkl,
-                df : iTemp.df,
-                melanoma : iTemp.melanoma,
-                nv : iTemp.nv,
-                vasc : iTemp.vasc,
+                akiec : akiec,//state
+                bcc : bcc,//state
+                bkl : bkl,//state
+                df : df,//state
+                melanoma : melanoma,//state
+                nv : nv,//state
+                vasc : vasc,//state
             })
             .then( async() => {
                 setLoading(false)

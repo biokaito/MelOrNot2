@@ -7,6 +7,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) =>{
     const [user, setUser] = useState(null);
+    const [password, setPassword] = useState(null);
     const [userUID, setUserUID] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,8 @@ export const AuthProvider = ({ children }) =>{
             value={{
                 user,
                 setUser,
+                password,
+                setPassword,
                 userUID,
                 setUserUID,
                 userEmail,
@@ -57,6 +60,7 @@ export const AuthProvider = ({ children }) =>{
                     .then(async () =>{
                         const user = firebase.auth().currentUser
                         await setUser(user.displayName);
+                        await setPassword(password);
                         await setUserUID(user.uid);
                         await setUserEmail(user.email);
                         await setLoading(false)
@@ -135,6 +139,20 @@ export const AuthProvider = ({ children }) =>{
                         
 
                     }                        
+                },
+                updateProfile : async (name)=>{
+                    //await setLoading(true)
+                    await firebase
+                    .auth().currentUser
+                    .updateProfile({
+                        displayName: `${name}`
+                    })
+                    .then(
+                        async() => {
+                            const user = firebase.auth().currentUser
+                            console.log(user.displayName)
+                        }
+                    )
                 },
                 logout: async () => {
                     setUser("")
