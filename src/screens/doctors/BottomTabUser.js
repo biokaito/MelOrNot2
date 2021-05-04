@@ -7,63 +7,36 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
+import Loading from '../../components/Loading'
 
 export default function HomeScreen(){
-    const {logout, user, userEmail, password, updateProfile} = useContext(AuthContext);
-    const [name, setName] = useState("");
+    const {logout, user, userEmail, password, updateProfile, loading, errDisplayName} = useContext(AuthContext);
     const [nameEdited, setNameEdited] = useState("");
-    const [isShowDisplayNameModal, setShowDisplayNameModal] = useState(false);
-    const [isShowPasswordNameModal, setShowPasswordModal] = useState(false);
+    
     useEffect(()=>{
-        const user =  firebase.auth().currentUser
-        if (user.displayName){
-        setName(user.displayName)
-        setNameEdited(user.displayName)
-        }
-        else{
-            
+        if (user){
+        setNameEdited(user)
         }
     },[])
-    const toggleModal = () => {
-        setShowDisplayNameModal(!isShowDisplayNameModal);
-      };
+    if(loading){
+        return <Loading />;
+    }
 
     return(
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image source={require('../../images/doctor-illu.jpg')} style={styles.image} />
-                <Text style={styles.nameText} numberOfLines={1}>{name}</Text>
+                <Text style={styles.nameText} numberOfLines={1}>{user}</Text>
                 <Text style={styles.editText} numberOfLines={1}>Edit profile</Text>
             </View>
-            <View style={styles.footer}>         
-            <Button labelStyle={styles.labelStyle} style={styles.changeDisplaynameStyle} icon={'face-agent'} mode="Outlined" onPress={() => {setShowDisplayNameModal(true)}}>
-                Change displayname
-            </Button>
-            <Button labelStyle={styles.labelStyle} style={styles.changePasswordStyle} icon={'form-textbox-password'} mode="Outlined" onPress={() => {console.log('change password')}}>
+            <View style={styles.footer}>        
+            <Button labelStyle={styles.labelStyle} style={styles.changePasswordStyle} icon={'form-textbox-password'} mode="outlined" onPress={() => {console.log('change password')}}>
                 Change password
             </Button>   
-            <Button labelStyle={styles.labelStyle}  icon={'location-exit'} mode="Outlined" onPress={() => logout()}>
+            <Button labelStyle={styles.labelStyle}  icon={'location-exit'} mode="outlined" onPress={() => logout()}>
                 Log out
             </Button>
             </View>
-            <Modal isVisible={isShowDisplayNameModal} onBackdropPress={toggleModal}>
-                <View style={styles.modalStyle}>
-                <View style={styles.title}>
-                    <Title>Edit Name</Title>
-                </View>
-                <View style={styles.inputWrapper}>
-                    <TextInput
-                        label="Your displayname"
-                        style={styles.inputStyle}
-                        value={nameEdited}
-                        onChangeText={text => setNameEdited(text)}
-                    />
-                    <Button labelStyle={{fontSize: 16}} icon={'check-outline'} mode="Outlined" onPress={() => {updateProfile(nameEdited)}}>
-                        Save
-                    </Button>
-                </View>
-                </View>
-            </Modal>
         </View>
         
     );
@@ -108,20 +81,21 @@ const styles = StyleSheet.create({
     },
     labelStyle:{
         fontSize:20,
-        //color: 'white',
+        color: 'white',
     },
     changeDisplaynameStyle:{
         marginTop: 35
     },
     changePasswordStyle:{
-        marginVertical: 10
+        marginVertical: 10,
+        marginTop: 40
     },
     modalStyle:{
         //flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        height: '30%',
+        height: '25%',
         backgroundColor: 'white',
         borderRadius: 20
     },

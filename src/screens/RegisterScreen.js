@@ -16,10 +16,13 @@ export default function SignupScreen({ navigation }) {
 
   const closeModal = ()=>{
     setIsShowModal(false)
+    setErrEmail("")
+    setErrPassword("")
+    setErrDisplayName("")
     navigation.navigate("Login")
   }
 
-  const { register, loading, errEmail, errPassword, errDisplayName,setIsShowModal, isShowModal } = useContext(AuthContext);
+  const { register, loading, errEmail, setErrEmail, errPassword, setErrPassword, errDisplayName,setErrDisplayName ,setIsShowModal, isShowModal } = useContext(AuthContext);
   if(loading){
     return <Loading />;
   }

@@ -17,6 +17,8 @@ export const AuthProvider = ({ children }) =>{
     const [errDisplayName, setErrDisplayName] = useState("");
     const [errEmailLogin, setErrEmailLogin] = useState("");
     const [errPasswordLogin , setErrPasswordLogin] = useState("");
+    const [isShowDisplayNameModal, setShowDisplayNameModal] = useState(false);
+    const [isShowPasswordModal, setShowPasswordModal] = useState(false);
     return(
         <AuthContext.Provider
             value={{
@@ -42,6 +44,10 @@ export const AuthProvider = ({ children }) =>{
                 setErrEmailLogin,
                 errPasswordLogin,
                 setErrPasswordLogin,
+                isShowDisplayNameModal,
+                setShowDisplayNameModal,
+                isShowPasswordModal,
+                setShowPasswordModal,
                 login: async ( email, password) => {
                     //To Do
                     setErrEmailLogin("");
@@ -64,6 +70,7 @@ export const AuthProvider = ({ children }) =>{
                         await setUserUID(user.uid);
                         await setUserEmail(user.email);
                         await setLoading(false)
+                        console.log(user.displayName)
                     })
                     .catch(err =>{
                         if(err.code === 'auth/invalid-email'){
@@ -106,16 +113,16 @@ export const AuthProvider = ({ children }) =>{
                         setLoading(!loading);
                         await firebase
                         .auth()                        
-                        .createUserWithEmailAndPassword(email, password)
-                        .then(() =>{
-                            setIsShowModal(true);
-                        })
+                        .createUserWithEmailAndPassword(email, password)                        
                         .then((credential) =>{
                             credential.user
                             .updateProfile({displayName: displayName})
                             .then(async () => {
-                                //ToDOo
+                                console.log(displayName)
                             })
+                        })
+                        .then(() =>{
+                            setIsShowModal(true);
                         })                 
                         .catch(err =>{
                             if(err.code === 'auth/email-already-in-use'){
@@ -141,18 +148,34 @@ export const AuthProvider = ({ children }) =>{
                     }                        
                 },
                 updateProfile : async (name)=>{
-                    //await setLoading(true)
-                    await firebase
-                    .auth().currentUser
-                    .updateProfile({
-                        displayName: `${name}`
-                    })
-                    .then(
-                        async() => {
-                            const user = firebase.auth().currentUser
-                            console.log(user.displayName)
-                        }
-                    )
+                    await setLoading(true)
+                        await firebase
+                        .auth().currentUser
+                        .updateProfile({
+                            displayName: `${name}`
+                        })
+                        .then(
+                            async() => {
+                                const user = await firebase.auth().currentUser
+                                setUser(user.displayName)
+                                setShowDisplayNameModal(false)
+                                setLoading(false)            
+                            }
+                        )
+                },
+                updatePasswordProfile : async (pass)=>{
+                    await setLoading(true)
+                        await firebase
+                        .auth().currentUser
+                        .updatePassword(pass)
+                        .then(
+                            async() => {
+                                const user = await firebase.auth().currentUser
+                                setUser(user.displayName)
+                                setShowPasswordModal(false)
+                                setLoading(false)            
+                            }
+                        )
                 },
                 logout: async () => {
                     setUser("")
