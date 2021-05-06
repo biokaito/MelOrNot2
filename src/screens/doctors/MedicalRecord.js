@@ -11,7 +11,7 @@ import Loading from '../../components/Loading';
 
 export default function HomeScreen({route, navigation}){
     const [loading,setLoading] = useState(false);
-    const userEmail = route.params
+    const {userEmail} = route.params
     const [data, setData] = useState([])
     useEffect(()=>{
         console.log(userEmail)

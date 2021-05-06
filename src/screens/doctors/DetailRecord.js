@@ -10,72 +10,62 @@ import FormInput from '../../components/FormInput'
 import Loading from '../../components/Loading'
 
 export default function DetailRecord({route, navigation}){
-    const {logout, user} = useContext(AuthContext);
-    const [name, setName] = useState("");
-    const [ID, setID] = useState("");
-    const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [imageURL, setImageURL] = useState("");
-    const [akiec,setAkiec] = useState("")
-    const [bcc,setBcc] = useState("")
-    const [bkl,setBkl] = useState("")
-    const [df,setDf] = useState("")
-    const [melanoma,setMelanoma] = useState("")
-    const [nv,setNv] = useState("")
-    const [vasc,setVasc] = useState("")
-    const {item, userEmail, id} = route.params
+    const { getData, 
+            loading, 
+            setLoading, 
+            saveResult,
+            imageURL, 
+            setImageURL,
+            akiec,
+            setAkiec,
+            bcc,
+            setBcc,
+            bkl,
+            setBkl,
+            df,
+            setDf,
+            melanoma,
+            setMelanoma,
+            nv,
+            setNv,
+            vasc,
+            setVasc } = useContext(AuthContext);
+    const { userEmail, id} = route.params
+    
+    // const [name, setName] = useState("");
+    // const [ID, setID] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [imageURL, setImageURL] = useState(item.imageURL);
+    // const [akiec,setAkiec] = useState(item.akiec)
+    // const [bcc,setBcc] = useState(item.bcc)
+    // const [bkl,setBkl] = useState(item.bkl)
+    // const [df,setDf] = useState(item.df) 
+    // const [melanoma,setMelanoma] = useState(item.melanoma)
+    // const [nv,setNv] = useState(item.nv)
+    // const [vasc,setVasc] = useState(item.vasc)
+    
     
 
     useEffect( ()=>{
-        console.log(item)
-        setValue(item)      
-        setEmail(userEmail)
-        setID(id)  
-        return () => {
-            setAkiec("")
-            setBcc("")
-            setBkl("")
-            setDf("")
-            setMelanoma("")
-            setNv("")
-            setVasc("") 
-          };
+        //console.log(item)
+        try {
+            getData(userEmail,id)
+        }
+        catch(e){
+            console.log(e)
+        }
+        //console.log(itemp)
     },[])
-    const setValue = (item) => {
-        setImageURL(item.imageURL)
-        setAkiec(item.akiec.toString())
-        setBcc(item.bcc.toString())
-        setBkl(item.bkl.toString())
-        setDf(item.df.toString())
-        setMelanoma(item.melanoma.toString())
-        setNv(item.nv.toString())
-        setVasc(item.vasc.toString())
-    }
-    const saveResult = async ()=>{
-        if(akiec=="" || bcc=="" ||bkl=="" ||df=="" ||melanoma=="" ||nv=="" ||vasc==""){
-            alert("Something is empty!!")
-        }
-        else{
-            await setLoading(true)
-            await firebase 
-            .firestore()
-            .collection(`Users/${email}/Results`)
-            .doc(`${ID}`) 
-            .update({
-                akiec : akiec,//state
-                bcc : bcc,//state
-                bkl : bkl,//state
-                df : df,//state
-                melanoma : melanoma,//state
-                nv : nv,//state
-                vasc : vasc,//state
-            })
-            .then( async() => {
-                setLoading(false)
-                alert('Updated!')
-            });
-        }
-    }
+    // const setValue = (item) => {
+    //     setImageURL(item.imageURL)
+    //     setAkiec(item.akiec.toString())
+    //     setBcc(item.bcc.toString())
+    //     setBkl(item.bkl.toString())
+    //     setDf(item.df.toString())
+    //     setMelanoma(item.melanoma.toString())
+    //     setNv(item.nv.toString())
+    //     setVasc(item.vasc.toString())
+    // }
     if(loading){
         return <Loading />;
     }
@@ -89,7 +79,7 @@ export default function DetailRecord({route, navigation}){
                     <MaterialIcons name="keyboard-backspace" size={35} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.saveIcon} onPress={()=>{
-                    saveResult()
+                    saveResult(userEmail, id)
                     }} >
                     <MaterialIcons name="save-alt" size={35} color="black" />
                 </TouchableOpacity>

@@ -13,8 +13,11 @@ export default function HomeScreen({navigation}){
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     useEffect(()=>{
+        setLoading(true)
         getData()
+        setLoading(false)
     },[])
+
     const getData = () =>{
         firebase
         .firestore()

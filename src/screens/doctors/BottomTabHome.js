@@ -31,7 +31,7 @@ export default function HomeScreen({navigation}){
                 })
                 setData(data)
                 if(data.length){
-                    navigation.navigate("MedicalRecord", email)
+                    navigation.navigate("MedicalRecord", {userEmail: email})
                 }
                 else{
                     alert("Cann't find data")

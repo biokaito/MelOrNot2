@@ -6,7 +6,7 @@ import { firebase } from '../firebase';
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) =>{
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null);    
     const [password, setPassword] = useState(null);
     const [errEditProfilePassword, setErrEditProfilePassword] = useState(null);
     const [prevPassword, setPrevPassword] = useState(null);
@@ -23,6 +23,14 @@ export const AuthProvider = ({ children }) =>{
     const [errPasswordLogin , setErrPasswordLogin] = useState("");
     const [isShowDisplayNameModal, setShowDisplayNameModal] = useState(false);
     const [isShowPasswordModal, setShowPasswordModal] = useState(false);
+    const [imageURL, setImageURL] = useState(null);
+    const [akiec,setAkiec] = useState(null)
+    const [bcc,setBcc] = useState(null)
+    const [bkl,setBkl] = useState(null)
+    const [df,setDf] = useState(null)
+    const [melanoma,setMelanoma] = useState(null)
+    const [nv,setNv] = useState(null)
+    const [vasc,setVasc] = useState(null)
     return(
         <AuthContext.Provider
             value={{
@@ -60,6 +68,22 @@ export const AuthProvider = ({ children }) =>{
                 setShowDisplayNameModal,
                 isShowPasswordModal,
                 setShowPasswordModal,
+                imageURL, 
+                setImageURL,
+                akiec,
+                setAkiec,
+                bcc,
+                setBcc,
+                bkl,
+                setBkl,
+                df,
+                setDf,
+                melanoma,
+                setMelanoma,
+                nv,
+                setNv,
+                vasc,
+                setVasc,
                 login: async ( email, password) => {
                     //To Do
                     setErrEmailLogin("");
@@ -219,6 +243,48 @@ export const AuthProvider = ({ children }) =>{
                 },
                 logout: async () => {
                     setUser("")
+                },
+                getData: async (email, id) => {
+                    await setLoading(true)
+                        const userDocument = await firebase.firestore()
+                        .collection(`Users/${email}/Results`)
+                        .doc(`${id}`).get();
+                        const {...item} = userDocument.data()
+                        //console.log(item.akiec)
+                        await setImageURL(item.imageURL)
+                        await setAkiec(item.akiec.toString())
+                        await setBcc(item.bcc.toString())
+                        await setBkl(item.bkl.toString())
+                        await setDf(item.df.toString())
+                        await setMelanoma(item.melanoma.toString())
+                        await setNv(item.nv.toString())
+                        await setVasc( item.vasc.toString())
+                        setLoading(false)
+                },
+                saveResult: async (email, id)=>{
+                    if(akiec=="" ||bcc=="" ||bkl=="" ||df=="" ||melanoma=="" ||nv=="" ||vasc==""){
+                        alert("Something is empty!!")
+                    }
+                    else{
+                        await setLoading(true)
+                        await firebase 
+                        .firestore()
+                        .collection(`Users/${email}/Results`)
+                        .doc(`${id}`) 
+                        .update({
+                            akiec : akiec,//state
+                            bcc : bcc,//state
+                            bkl : bkl,//state
+                            df : df,//state
+                            melanoma : melanoma,
+                            nv : nv,//state
+                            vasc : vasc,//state
+                        })
+                        .then( async() => {
+                            setLoading(false)
+                            alert('Updated!')
+                        });
+                    }                  
                 }
             }}
         >

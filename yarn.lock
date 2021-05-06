@@ -4092,7 +4092,7 @@ find-up@~5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-firebase@^8.3.0:
+firebase@8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-8.3.0.tgz#078f54aecf05c4bd54a4d873d04130efac259aff"
   integrity sha512-Dyc16NwXth4TIJ12doQkUnwSrTqlJ1sCmTIOqFdCPT+EBMgD7jAj3cy/fnbRM9YdQ0CJYXVSz4aC/fJbDKSn8A==
