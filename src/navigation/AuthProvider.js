@@ -8,6 +8,10 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) =>{
     const [user, setUser] = useState(null);
     const [password, setPassword] = useState(null);
+    const [errEditProfilePassword, setErrEditProfilePassword] = useState(null);
+    const [prevPassword, setPrevPassword] = useState(null);
+    const [newPassword, setNewPassword] = useState(null);
+    const [confirmPassword, setConfirmPassword] = useState(null);
     const [userUID, setUserUID] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -26,6 +30,14 @@ export const AuthProvider = ({ children }) =>{
                 setUser,
                 password,
                 setPassword,
+                prevPassword,
+                setPrevPassword,
+                newPassword,
+                setNewPassword,
+                confirmPassword,
+                setConfirmPassword,
+                errEditProfilePassword,
+                setErrEditProfilePassword,
                 userUID,
                 setUserUID,
                 userEmail,
@@ -163,19 +175,47 @@ export const AuthProvider = ({ children }) =>{
                             }
                         )
                 },
-                updatePasswordProfile : async (pass)=>{
+                updatePasswordProfile : async (pass, prevpass, newpass, confirmpass)=>{
                     await setLoading(true)
-                        await firebase
-                        .auth().currentUser
-                        .updatePassword(pass)
-                        .then(
-                            async() => {
-                                const user = await firebase.auth().currentUser
-                                setUser(user.displayName)
-                                setShowPasswordModal(false)
-                                setLoading(false)            
-                            }
-                        )
+                    if(newpass == null || prevpass == null || confirmpass == null || newpass == "" || prevpass == "" || confirmpass == ""){
+                        setErrEditProfilePassword("Something blank!")
+                        setLoading(false)
+                    }
+                    else {
+                        if(pass !== prevpass){
+                            setErrEditProfilePassword("Incorrect previous password!")
+                            setLoading(false)
+                        }
+                        else if(newpass != confirmpass){
+                                setErrEditProfilePassword("Incorrect confirm password!")
+                                setLoading(false)
+                        }
+                        else if (newpass == pass){
+                            setErrEditProfilePassword("That's your previous password")
+                            setLoading(false)
+                        }
+                        else if (newpass.length < 6){
+                            setErrEditProfilePassword("Weak password")
+                            setLoading(false)
+                        }
+                        else{
+                            const user = await firebase.auth().currentUser
+
+                            user.updatePassword(newpass)
+                            .then(
+                                async() => {
+                                    await setErrEditProfilePassword(null)  
+                                    await setPrevPassword(null)
+                                    await setNewPassword(null)
+                                    await setConfirmPassword(null)                              
+                                    await setShowPasswordModal(false)
+                                    await setPassword(newpass)
+                                    await setLoading(false) 
+                                    alert("Success")  
+                                }
+                            )
+                        }
+                    }
                 },
                 logout: async () => {
                     setUser("")

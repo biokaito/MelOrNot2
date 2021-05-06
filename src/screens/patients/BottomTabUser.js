@@ -11,10 +11,27 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import Loading from '../../components/Loading'
 
 export default function HomeScreen(){
-    const {logout, user, userEmail, password, updateProfile,isShowDisplayNameModal,setShowDisplayNameModal, loading,isShowPasswordModal,setShowPasswordModal,updatePasswordProfile, errDisplayName} = useContext(AuthContext);
+    const { logout, 
+            user, 
+            userEmail, 
+            password, 
+            updateProfile,
+            isShowDisplayNameModal,
+            setShowDisplayNameModal, 
+            loading,
+            isShowPasswordModal,
+            setShowPasswordModal,
+            updatePasswordProfile, 
+            errDisplayName,
+            prevPassword,
+            setPrevPassword,
+            newPassword,
+            setNewPassword,
+            confirmPassword,
+            setConfirmPassword,
+            errEditProfilePassword,
+            setErrEditProfilePassword } = useContext(AuthContext);
     const [nameEdited, setNameEdited] = useState("");
-    const [passEdited, setPassEdited] = useState("");
-    const [passConfirm, setPassConfirm] = useState("");
     
     useEffect(()=>{
         if (user){
@@ -23,13 +40,60 @@ export default function HomeScreen(){
     },[])
     const toggleModal = () => {
         setShowDisplayNameModal(!isShowDisplayNameModal);
+        
       };
     const togglePasswordModal = () => {
         setShowPasswordModal(!isShowPasswordModal);
+        setErrEditProfilePassword("")
+        setNewPassword(null)
+        setPrevPassword(null)
+        setConfirmPassword(null)
     };
-    if(loading){
-        return <Loading />;
+    if(loading)
+    {
+        return <Loading />
     }
+    if(isShowPasswordModal){
+        return <Modal isVisible={isShowPasswordModal} onBackdropPress={togglePasswordModal}>
+        <View style={styles.modalPasswordStyle}>
+        <View style={styles.title}>
+            <Title style={{fontSize: 30, marginTop: 10}}>Edit Password</Title>
+        </View>
+        <View style={styles.inputPasswordWrapper}>
+            <TextInput
+                secureTextEntry
+                label="Your Previous Password"
+                style={styles.inputPasswordStyle}
+                value={prevPassword}
+                onChangeText={text => {                            
+                    setPrevPassword(text)
+                }}
+            />
+            <TextInput
+                secureTextEntry
+                label="Your New Password"
+                style={styles.inputPasswordStyle}
+                value={newPassword}
+                onChangeText={text => {                            
+                    setNewPassword(text)
+                }}
+            />
+            <TextInput
+                secureTextEntry 
+                label="Confirm Your Password"
+                style={styles.inputPasswordStyle}
+                value={confirmPassword}
+                onChangeText={text => {                            
+                    setConfirmPassword(text)
+                }}
+            />
+            {errEditProfilePassword? <Text style={{fontSize: 12, color: 'red', fontStyle: 'italic'}}>{errEditProfilePassword}</Text> : null}
+            <Button style={{borderRadius: 15, marginTop: 10}} labelStyle={{fontSize: 16, paddingVertical: 13}} icon={'check-outline'} mode="outlined" onPress={() => {updatePasswordProfile(password, prevPassword, newPassword, confirmPassword)}}>Save</Button>
+        </View>
+        </View>
+    </Modal>;
+    }
+    
 
     return(
         <View style={styles.container}>
@@ -71,40 +135,7 @@ export default function HomeScreen(){
                 </View>
             </Modal>
 
-            <Modal isVisible={isShowPasswordModal} onBackdropPress={togglePasswordModal}>
-                <View style={styles.modalPasswordStyle}>
-                <View style={styles.title}>
-                    <Title style={{fontSize: 30, marginTop: 10}}>Edit Password</Title>
-                </View>
-                <View style={styles.inputPasswordWrapper}>
-                    <TextInput
-                        label="Your Previous Password"
-                        style={styles.inputPasswordStyle}
-                        value={nameEdited}
-                        onChangeText={text => {                            
-                            setNameEdited(text)
-                        }}
-                    />
-                    <TextInput
-                        label="Your New Password"
-                        style={styles.inputPasswordStyle}
-                        value={nameEdited}
-                        onChangeText={text => {                            
-                            setNameEdited(text)
-                        }}
-                    />
-                    <TextInput
-                        label="Confirm Your Password"
-                        style={styles.inputPasswordStyle}
-                        value={nameEdited}
-                        onChangeText={text => {                            
-                            setNameEdited(text)
-                        }}
-                    />
-                    <Button style={{borderRadius: 15, marginTop: 10}} labelStyle={{fontSize: 16, paddingVertical: 13}} icon={'check-outline'} mode="outlined" onPress={() => {updatePasswordProfile(nameEdited)}}>Save</Button>
-                </View>
-                </View>
-            </Modal>
+            
 
         </View>
         

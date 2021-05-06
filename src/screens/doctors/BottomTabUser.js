@@ -10,7 +10,26 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import Loading from '../../components/Loading'
 
 export default function HomeScreen(){
-    const {logout, user, userEmail, password, updateProfile, loading, errDisplayName} = useContext(AuthContext);
+    const { logout, 
+        user, 
+        userEmail, 
+        password, 
+        updateProfile,
+        isShowDisplayNameModal,
+        setShowDisplayNameModal, 
+        loading,
+        isShowPasswordModal,
+        setShowPasswordModal,
+        updatePasswordProfile, 
+        errDisplayName,
+        prevPassword,
+        setPrevPassword,
+        newPassword,
+        setNewPassword,
+        confirmPassword,
+        setConfirmPassword,
+        errEditProfilePassword,
+        setErrEditProfilePassword } = useContext(AuthContext);
     const [nameEdited, setNameEdited] = useState("");
     
     useEffect(()=>{
@@ -21,6 +40,54 @@ export default function HomeScreen(){
     if(loading){
         return <Loading />;
     }
+    const togglePasswordModal = () => {
+        setShowPasswordModal(!isShowPasswordModal);
+        setErrEditProfilePassword("")
+        setNewPassword(null)
+        setPrevPassword(null)
+        setConfirmPassword(null)
+    };
+
+    if(isShowPasswordModal){
+        return <Modal isVisible={isShowPasswordModal} onBackdropPress={togglePasswordModal}>
+        <View style={styles.modalPasswordStyle}>
+        <View style={styles.title}>
+            <Title style={{fontSize: 30, marginTop: 10}}>Edit Password</Title>
+        </View>
+        <View style={styles.inputPasswordWrapper}>
+            <TextInput
+                secureTextEntry
+                label="Your Previous Password"
+                style={styles.inputPasswordStyle}
+                value={prevPassword}
+                onChangeText={text => {                            
+                    setPrevPassword(text)
+                }}
+            />
+            <TextInput
+                secureTextEntry
+                label="Your New Password"
+                style={styles.inputPasswordStyle}
+                value={newPassword}
+                onChangeText={text => {                            
+                    setNewPassword(text)
+                }}
+            />
+            <TextInput
+                secureTextEntry
+                label="Confirm Your Password"
+                style={styles.inputPasswordStyle}
+                value={confirmPassword}
+                onChangeText={text => {                            
+                    setConfirmPassword(text)
+                }}
+            />
+            {errEditProfilePassword? <Text style={{fontSize: 12, color: 'red', fontStyle: 'italic'}}>{errEditProfilePassword}</Text> : null}
+            <Button style={{borderRadius: 15, marginTop: 10}} labelStyle={{fontSize: 16, paddingVertical: 13}} icon={'check-outline'} mode="outlined" onPress={() => {updatePasswordProfile(password, prevPassword, newPassword, confirmPassword)}}>Save</Button>
+        </View>
+        </View>
+    </Modal>;
+    }
 
     return(
         <View style={styles.container}>
@@ -30,7 +97,7 @@ export default function HomeScreen(){
                 <Text style={styles.editText} numberOfLines={1}>Edit profile</Text>
             </View>
             <View style={styles.footer}>        
-            <Button labelStyle={styles.labelStyle} style={styles.changePasswordStyle} icon={'form-textbox-password'} mode="outlined" onPress={() => {console.log('change password')}}>
+            <Button labelStyle={styles.labelStyle} style={styles.changePasswordStyle} icon={'form-textbox-password'} mode="outlined" onPress={() => togglePasswordModal()}>
                 Change password
             </Button>   
             <Button labelStyle={styles.labelStyle}  icon={'location-exit'} mode="outlined" onPress={() => logout()}>
@@ -55,7 +122,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fbfcff',
+        backgroundColor: 'white',
     },
     footer:{
         flex: 3,
@@ -72,7 +139,7 @@ const styles = StyleSheet.create({
     nameText:{
         fontSize: 40,
         fontFamily: 'Verdana',
-        marginTop: -40
+        marginTop: -10
     },
     editText:{
         color: 'red',
@@ -84,11 +151,10 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     changeDisplaynameStyle:{
-        marginTop: 35
+        marginTop: 40
     },
     changePasswordStyle:{
-        marginVertical: 10,
-        marginTop: 40
+        marginVertical: 10
     },
     modalStyle:{
         //flex: 1,
@@ -99,6 +165,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 20
     },
+    modalPasswordStyle:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '50%',
+        backgroundColor: 'white',
+        borderRadius: 20
+    },
     inputWrapper:{
         width: '100%',
         flexDirection: 'row',
@@ -106,8 +180,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    inputPasswordWrapper:{
+        width: '100%',
+        padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     inputStyle:{
         width: '70%',
+        height: 60,
         marginRight: 10
+    },
+    inputPasswordStyle:{
+        width: '70%',
+        height: 60,
+        marginVertical: 5
     }
 })
