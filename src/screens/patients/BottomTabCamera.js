@@ -271,6 +271,7 @@ export default function BottomTabCamera({navigation}){
             date : date + '/' + month + '/' + year
         })
         await setImageURL("")
+        
        }
        else{
          alert("Please wait a second!")

@@ -8,6 +8,7 @@ import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import FormInput from '../../components/FormInput'
 import Loading from '../../components/Loading'
+import ModalFail from '../../components/ModalFail'
 
 export default function DetailRecord({route, navigation}){
     const { getData, 
@@ -29,23 +30,11 @@ export default function DetailRecord({route, navigation}){
             nv,
             setNv,
             vasc,
-            setVasc } = useContext(AuthContext);
+            setVasc,
+            isShowModal,
+            setIsShowModal, } = useContext(AuthContext);
     const { userEmail, id} = route.params
-    
-    // const [name, setName] = useState("");
-    // const [ID, setID] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [imageURL, setImageURL] = useState(item.imageURL);
-    // const [akiec,setAkiec] = useState(item.akiec)
-    // const [bcc,setBcc] = useState(item.bcc)
-    // const [bkl,setBkl] = useState(item.bkl)
-    // const [df,setDf] = useState(item.df) 
-    // const [melanoma,setMelanoma] = useState(item.melanoma)
-    // const [nv,setNv] = useState(item.nv)
-    // const [vasc,setVasc] = useState(item.vasc)
-    
-    
-
+      
     useEffect( ()=>{
         //console.log(item)
         try {
@@ -56,19 +45,12 @@ export default function DetailRecord({route, navigation}){
         }
         //console.log(itemp)
     },[])
-    // const setValue = (item) => {
-    //     setImageURL(item.imageURL)
-    //     setAkiec(item.akiec.toString())
-    //     setBcc(item.bcc.toString())
-    //     setBkl(item.bkl.toString())
-    //     setDf(item.df.toString())
-    //     setMelanoma(item.melanoma.toString())
-    //     setNv(item.nv.toString())
-    //     setVasc(item.vasc.toString())
-    // }
     if(loading){
         return <Loading />;
     }
+    if(isShowModal){
+        return <ModalFail message="Something Blank" isVisible={isShowModal} onBackdropPress={() => setIsShowModal(!isShowModal)} />;
+    } 
     return(
         <View style={styles.container}>
             <SafeAreaView />

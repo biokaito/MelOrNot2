@@ -7,13 +7,14 @@ import Modal from 'react-native-modal';
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';
 import Loading from '../components/Loading';
+import ModalSucess from '../components/ModalSuccess';
 
 
 export default function SignupScreen({ navigation }) {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isShowModal, setIsShowModal] = useState(false)
   const closeModal = ()=>{
     setIsShowModal(false)
     setErrEmail("")
@@ -22,20 +23,12 @@ export default function SignupScreen({ navigation }) {
     navigation.navigate("Login")
   }
 
-  const { register, loading, errEmail, setErrEmail, errPassword, setErrPassword, errDisplayName,setErrDisplayName ,setIsShowModal, isShowModal } = useContext(AuthContext);
+  const { register, loading, errEmail, setErrEmail, errPassword, setErrPassword, errDisplayName,setErrDisplayName } = useContext(AuthContext);
   if(loading){
     return <Loading />;
   }
   if(isShowModal){
-    return <Modal animationIn="tada" animationOut="wobble" isVisible={isShowModal} onBackdropPress={() => closeModal()} >  
-              <View style={styles.containerAlert}>
-                  <Image 
-                      source={require('../images/tick.png')}
-                      style={styles.imageAlert}
-                  />
-                  <Text style={styles.nameAlert}>Success!</Text>
-              </View>
-          </Modal>;
+    return <ModalSucess isVisible={isShowModal} onBackdropPress={() => closeModal()} />;
   }  
 
   return (
@@ -110,23 +103,5 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     //justifyContent: 'flex-start'
   },
-  containerAlert: {
-    backgroundColor: '#fff',
-    borderRadius: 25,
-    justifyContent: 'center',
-    height: 200,
-    width: 250,
-    alignSelf: 'center'
-  },
-  imageAlert: {
-      height: 80,
-      width: 80,
-      alignSelf: 'center',
-      marginBottom: 20,
-  },
-  nameAlert: {
-      fontWeight: '500',
-      fontSize: 30,
-      textAlign: 'center',
-  },
+  
 });

@@ -195,7 +195,8 @@ export const AuthProvider = ({ children }) =>{
                                 const user = await firebase.auth().currentUser
                                 setUser(user.displayName)
                                 setShowDisplayNameModal(false)
-                                setLoading(false)            
+                                setLoading(false)
+                                setIsShowModal(true)            
                             }
                         )
                 },
@@ -235,7 +236,7 @@ export const AuthProvider = ({ children }) =>{
                                     await setShowPasswordModal(false)
                                     await setPassword(newpass)
                                     await setLoading(false) 
-                                    alert("Success")  
+                                    await setIsShowModal(true)
                                 }
                             )
                         }
@@ -263,7 +264,7 @@ export const AuthProvider = ({ children }) =>{
                 },
                 saveResult: async (email, id)=>{
                     if(akiec=="" ||bcc=="" ||bkl=="" ||df=="" ||melanoma=="" ||nv=="" ||vasc==""){
-                        alert("Something is empty!!")
+                        setIsShowModal(true)
                     }
                     else{
                         await setLoading(true)
@@ -282,7 +283,6 @@ export const AuthProvider = ({ children }) =>{
                         })
                         .then( async() => {
                             setLoading(false)
-                            alert('Updated!')
                         });
                     }                  
                 }

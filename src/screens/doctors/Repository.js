@@ -7,11 +7,13 @@ import { firebase } from '../../firebase';
 import {AuthContext} from '../../navigation/AuthProvider';
 import FormButton from '../../components/FormButton';
 import Loading from '../../components/Loading'
+import ModalFail from '../../components/ModalFail'
 
 export default function HomeScreen({navigation}){
     const { userEmail,user, userUID} = useContext(AuthContext);
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
+    const [isShowModal, setIsShowModal] = useState(false)
     useEffect(()=>{
         setLoading(true)
         getData()
@@ -40,9 +42,7 @@ export default function HomeScreen({navigation}){
           .delete() 
           .then(()=>{
             setLoading(false)
-            alert(
-              "Deleted!"
-            )
+            setIsShowModal(true)
           })
     }
     if(loading){
@@ -204,6 +204,7 @@ export default function HomeScreen({navigation}){
                 }
                 </SafeAreaView>
             </View>
+            <ModalFail message="Deleted" isVisible={isShowModal} onBackdropPress={() => setIsShowModal(!isShowModal)} />
             </View>
     );
 }

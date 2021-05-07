@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import Loading from '../../components/Loading'
+import ModalSucess from '../../components/ModalSuccess'
 
 export default function HomeScreen(){
     const { logout, 
@@ -29,8 +30,11 @@ export default function HomeScreen(){
         confirmPassword,
         setConfirmPassword,
         errEditProfilePassword,
-        setErrEditProfilePassword } = useContext(AuthContext);
+        setErrEditProfilePassword,
+        isShowModal, 
+        setIsShowModal } = useContext(AuthContext);
     const [nameEdited, setNameEdited] = useState("");
+
     
     useEffect(()=>{
         if (user){
@@ -40,6 +44,9 @@ export default function HomeScreen(){
     if(loading){
         return <Loading />;
     }
+    if(isShowModal){
+        return <ModalSucess isVisible={isShowModal} onBackdropPress={() => setIsShowModal(!isShowModal)} />;
+    }  
     const togglePasswordModal = () => {
         setShowPasswordModal(!isShowPasswordModal);
         setErrEditProfilePassword("")

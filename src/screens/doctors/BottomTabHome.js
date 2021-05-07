@@ -1,5 +1,5 @@
 import React,{useState,useEffect, useContext, useRef} from 'react';
-import {StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import {StyleSheet, View, Text, Image } from 'react-native';
 import {Title} from 'react-native-paper';
 import { firebase } from '../../firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -7,20 +7,31 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import FormButton from '../../components/FormButton';
 import FormInput from '../../components/FormInput';
 import {AuthContext} from '../../navigation/AuthProvider';
-import { Image } from 'react-native';
+import ModalFail from '../../components/ModalFail';
+import Loading from '../../components/Loading';
 
 export default function HomeScreen({navigation}){
     const {logout, userEmail, user} = useContext(AuthContext);
     const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [isShowModal, setIsShowModal] = useState(false)
     const [data,setData] = useState([])
     useEffect(()=>{
               setData([])
     },[])
+    if(loading){
+        return <Loading />
+    }
+    if(isShowModal){
+        return <ModalFail message="Have no data" isVisible={isShowModal} onBackdropPress={() => setIsShowModal(!isShowModal)} />;
+    }  
+
     const getData = async(email) =>{
         if(email==""){
-            alert("Input can not empty!")
+            setIsShowModal(!isShowModal)
         }
         else{
+            await setLoading(true)
             await firebase
             .firestore()
             .collection(`Users/${email}/Results`)
@@ -31,10 +42,12 @@ export default function HomeScreen({navigation}){
                 })
                 setData(data)
                 if(data.length){
+                    setLoading(false)
                     navigation.navigate("MedicalRecord", {userEmail: email})
                 }
                 else{
-                    alert("Cann't find data")
+                    setLoading(false)
+                    setIsShowModal(!isShowModal)
                 }
             })
             //console.log(data, 2)
