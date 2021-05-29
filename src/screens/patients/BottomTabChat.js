@@ -6,11 +6,16 @@ import {Feather, MaterialIcons } from '@expo/vector-icons';
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import { firebase } from '../../firebase';
+import Loading from '../../components/Loading'
 
 export default function HomeScreen({ navigation }){
-    const {logout, user, userUID} = useContext(AuthContext);
+    const {logout, user, userUID, loading, setLoading} = useContext(AuthContext);
     const [listDoctors, setListDoctors] = useState(null);
     const [image, setImage] = useState("");
+
+    if(loading){
+        return <Loading />;
+    }
     const getDoctors = async () => {
         const querySnap = await firebase
         .firestore()
@@ -25,8 +30,9 @@ export default function HomeScreen({ navigation }){
     }
 
     useEffect(()=>{
+        setLoading(true)
         getDoctors()
-        console.log(listDoctors)
+        setLoading(false)
     },[])
 
     return(
@@ -42,7 +48,12 @@ export default function HomeScreen({ navigation }){
                     data={listDoctors}
                     renderItem={({item}) => {
                         return (
-                        <TouchableOpacity >
+                        <TouchableOpacity onPress={() => navigation.navigate('ChatScreen',
+                            {
+                                name: item.name,
+                                uid: item.uid
+                            }
+                        )}>
                             <View style={styles.myCard}>
                                 <Image source={{uri:item.avt}} style={styles.img}/>
                                 <View>

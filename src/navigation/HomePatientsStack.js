@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 
 
 
-export default function HomeStack(){
+export default function HomeStack({navigation}){
     const Tab = createBottomTabNavigator();
     return(
         <Tab.Navigator
@@ -35,7 +35,7 @@ export default function HomeStack(){
                     backgroundColor: '#fff',
                     borderRadius: 30,
                     position: 'absolute',
-                    bottom: 60,
+                    bottom: 30,
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderWidth: 1,
@@ -63,6 +63,7 @@ export default function HomeStack(){
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="ios-chatbubbles" color={color} size={30} />
                     ),
+                    // tabBarVisible: false
                 }}
             />            
             <Tab.Screen 
