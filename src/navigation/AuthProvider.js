@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) =>{
                         await setUserUID(user.uid);
                         await setUserEmail(user.email);
                         await setLoading(false)
-                        console.log(user.displayName)
+                        console.log(user.uid)
                     })
                     .catch(err =>{
                         if(err.code === 'auth/invalid-email'){
@@ -151,15 +151,13 @@ export const AuthProvider = ({ children }) =>{
                         .auth()                        
                         .createUserWithEmailAndPassword(email, password)                        
                         .then((credential) =>{
+                            console.log(credential.user.uid)
                             credential.user
                             .updateProfile({displayName: displayName})
-                            .then(async () => {
-                                console.log(displayName)
-                            })
-                        })
-                        .then(() =>{
-                            setIsShowModal(true);
-                        })                 
+                        })         
+                        .then(()=>{
+                            setIsShowModal(true); 
+                        }) 
                         .catch(err =>{
                             if(err.code === 'auth/email-already-in-use'){
                                 setErrEmail("That email is already in use!")

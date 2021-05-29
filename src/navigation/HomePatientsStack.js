@@ -4,7 +4,7 @@ import { Ionicons  } from '@expo/vector-icons';
 import React from 'react';
 
 
-import ChatScreen from '../screens/patients/BottomTabChat';
+import ChatNavigator from '../screens/patients/ChatNavigator';
 import CameraNavigator from '../screens/patients/CameraNavigator';
 import NewsScreen from '../screens/patients/BottomTabNews';
 import UserScreen from '../screens/patients/BottomTabUser';
@@ -57,7 +57,7 @@ export default function HomeStack(){
             />
             <Tab.Screen 
                 name="Chat" 
-                component={ChatScreen} 
+                component={ChatNavigator} 
                 options={{
                     tabBarLabel: 'Chat',
                     tabBarIcon: ({ color, size }) => (
