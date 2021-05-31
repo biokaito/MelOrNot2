@@ -1,42 +1,132 @@
 import React,{useState,useEffect, useContext} from 'react';
-import {StyleSheet, View, Text } from 'react-native';
+import { SafeAreaView, TouchableOpacity, Image, FlatList, StyleSheet, View, Text } from 'react-native';
 import {Title} from 'react-native-paper';
-import { firebase } from '../../firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import {Feather, MaterialIcons } from '@expo/vector-icons';
 
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
+import { firebase } from '../../firebase';
+import Loading from '../../components/Loading'
 
-export default function HomeScreen(){
-    const {logout, user} = useContext(AuthContext);
-    const [name, setName] = useState("");
-    // useEffect(()=>{
-    //     const user =  firebase.auth().currentUser
-    //     if (user.displayName){
-    //     setName(user.displayName)
-    //     }
-    //     else{
-            
-    //     }
-    // })
+export default function HomeScreen({ navigation }){
+    const {logout, user, userUID} = useContext(AuthContext);
+    const [listPatients, setListPatients] = useState(null);
+    const [listFilterPatients, setListFilterPatients] = useState(null);
+    const [listID, setListID] = useState(null);
+    const [loading, setLoading] = useState(false);
+    
+    const getPatients = async () => { 
+        await firebase
+        .firestore() 
+        .collection(`Patients`)
+        .onSnapshot(snapshot =>{
+            let data = [];
+            snapshot.forEach(async (doc) =>{                
+                const docid  = doc.data().uid > userUID ? userUID + "-" + doc.data().uid : doc.data().uid + "-" + userUID
+                // console.log(docid)
+                const querySanp = await firebase.firestore().collection('chatrooms').doc(docid).collection('messages').orderBy('createdAt',"desc").get()
+                querySanp.docs.length > 0 && data.push({...doc.data(), id: doc.id})
+                console.log(data)
+            })
+        setListPatients(data);
+          
+        })
+    } 
+    
+    useEffect(()=>{
+        setLoading(true)
+        getPatients()
+        setLoading(false)
+        console.log(listPatients)
+    },[])
+    if(loading){
+        return <Loading />;
+    }
     return(
-        <View style={styles.container}>
-            <Title>Welcome Doctor Chat <Text>{user}</Text></Title>
-            <FormButton 
-                modeValue="contained" 
-                title="Logout" 
-                onPress={()=>{
-                    logout()
-            }} />
+        <View style={styles.container}>        
+            <SafeAreaView />    
+            <View style={styles.header}>         
+                <Feather name="more-vertical" size={35}/>
+                <Title style={styles.title}>Chat</Title>
+                <MaterialIcons name="search" size={35}/>
+            </View>
+            <View style={styles.body}>
+                <FlatList 
+                    data={listPatients}
+                    renderItem={({item}) => {
+                        return (
+                        <TouchableOpacity onPress={() => navigation.navigate('ChatScreen',
+                            {
+                                name: item.name,
+                                uid: item.uid
+                            }
+                        )}>
+                            <View style={styles.myCard}>
+                                <Image source={{uri:item.avt}} style={styles.img}/>
+                                <View>
+                                    <Text  numberOfLines={1} style={styles.textName}>{item.name}</Text>
+                                    <Text style={styles.text}>{item.position}</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                        )
+                    }}       
+                    keyExtractor={(item)=>item.uid}  
+                    style={styles.flatList}           
+                />
+            </View>
         </View>
     );
-}
+} 
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: '#f5f5f5',
+        backgroundColor: "#55b3b1",
         flex: 1,
-        justifyContent: 'center',
+    },
+    header:{
+        flex: 1,
+        flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10
+    },
+    body:{
+        flex: 12,
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
+        backgroundColor: "#f5f5f5",
+    },
+    title:{
+        fontSize: 30
+    },
+    img:{
+        width: 90,
+        height: 90
+    },
+    flatList:{
+        marginTop: 30,
+        paddingHorizontal: 30
+    },
+    myCard:{
+       flexDirection:"row",
+       margin:3,
+       padding:4,
+       backgroundColor:"white",
+       borderBottomWidth:1,
+       borderBottomColor:'grey',
+       marginBottom: 15,
+       alignItems: 'center'
+    },
+    text:{
+        fontSize:13,
+        marginLeft:15,
+    },
+    textName:{
+        marginLeft:15,
+        fontSize: 35,
+        width: 195,
+        marginBottom: 5,
+        fontWeight: 'bold'
     }
 })

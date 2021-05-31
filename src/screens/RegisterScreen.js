@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { IconButton, Title } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -14,16 +14,18 @@ export default function SignupScreen({ navigation }) {
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isShowModal, setIsShowModal] = useState(false)
   const closeModal = ()=>{
     setIsShowModal(false)
     setErrEmail("")
     setErrPassword("")
     setErrDisplayName("")
+    setDisplayName("")
+    setEmail("")
+    setPassword("")
     navigation.navigate("Login")
   }
-
-  const { register, loading, errEmail, setErrEmail, errPassword, setErrPassword, errDisplayName,setErrDisplayName } = useContext(AuthContext);
+  
+  const { register, loading, errEmail, setErrEmail, errPassword, setErrPassword, errDisplayName,setErrDisplayName, isShowModal, setIsShowModal } = useContext(AuthContext);
   if(loading){
     return <Loading />;
   }

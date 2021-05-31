@@ -8,13 +8,33 @@ import { firebase } from '../../firebase'
 import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import { TouchableOpacity } from 'react-native';
+import Loading from '../../components/Loading'
 
 export default function ChatScreen({navigation, route}){
     const {logout, user, userUID} = useContext(AuthContext);
     const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
     const {name, uid} = route.params
-
+    const getAllMessages = async ()=>{
+        const docid  = uid > userUID ? userUID + "-" + uid : uid + "-" + userUID
+        const querySanp = await firebase
+        .firestore()
+        .collection('chatrooms')
+        .doc(docid)
+        .collection('messages')
+        .orderBy('createdAt',"desc")
+        .get()
+       const allmsg = querySanp.docs.map(docSanp=>{
+            return {
+                ...docSanp.data(),
+                createdAt:docSanp.data().createdAt.toDate()
+            }
+        })
+        setMessages(allmsg)    
+     }
     useEffect(()=>{
+        setLoading(true)
+        // getAllMessages()
         const docid  = uid > userUID ? userUID + "-" + uid : uid+"-"+ userUID
         const messageRef = firebase.firestore().collection('chatrooms')
         .doc(docid)
@@ -38,9 +58,11 @@ export default function ChatScreen({navigation, route}){
                 
             })
             setMessages(allmsg)
+            setLoading(false)
         })
         return ()=>{
             unSubscribe()
+            
           }
     },[])
     const onSend =(messageArray) => {
@@ -60,7 +82,6 @@ export default function ChatScreen({navigation, route}){
        .doc(docid)
        .collection('messages')
        .add({...mymsg,createdAt: firebase.firestore.FieldValue.serverTimestamp()})
-
       }
     return(
         <View style={styles.container}>
@@ -77,6 +98,9 @@ export default function ChatScreen({navigation, route}){
             </View>
             <View style={styles.body}>
                 <View style={styles.chatContainer}>
+                    {loading? 
+                    <Loading />
+                    :
                     <GiftedChat 
                         messages={messages}
                         onSend={text => onSend(text)}
@@ -86,7 +110,7 @@ export default function ChatScreen({navigation, route}){
                         scrollToBottom
                         scrollToBottomComponent={() => (
                             <Feather name="chevrons-down" size={35}/>
-                          )}        
+                            )}        
                         renderBubble={(props)=>{
                             return <Bubble
                             {...props}
@@ -118,16 +142,17 @@ export default function ChatScreen({navigation, route}){
                         }}
                         renderActions={() => (
                             <Feather
-                              style={styles.uploadImage}
-                              onPress={()=>{
-                                  console.log("ihih")
-                              }}
-                              name='image'
-                              size={25}
-                              color='#000'
+                                style={styles.uploadImage}
+                                onPress={()=>{
+                                    console.log("ihih")
+                                }}
+                                name='image'
+                                size={25}
+                                color='#000'
                             />
-                          )}
+                            )}
                     />
+                    }
                 </View>
             </View>
         </View>

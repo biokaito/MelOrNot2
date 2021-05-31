@@ -24,6 +24,7 @@ export default function HomeScreen({ navigation }){
             let data = [];
             snapshot.forEach(doc =>{
                 data.push({...doc.data(), id: doc.id})
+                console.log(doc.id)
             })
         setListDoctors(data);
         })

@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) =>{
                         await setUserUID(user.uid);
                         await setUserEmail(user.email);
                         await setLoading(false)
-                        console.log(user.uid)
+                        // console.log(user.uid)
                     })
                     .catch(err =>{
                         if(err.code === 'auth/invalid-email'){
@@ -150,10 +150,21 @@ export const AuthProvider = ({ children }) =>{
                         await firebase
                         .auth()                        
                         .createUserWithEmailAndPassword(email, password)                        
-                        .then((credential) =>{
-                            console.log(credential.user.uid)
+                        .then((credential) =>{           
+                            console.log(credential.user.uid)                 
                             credential.user
-                            .updateProfile({displayName: displayName})
+                            .updateProfile({displayName: displayName})   
+
+                            firebase.firestore()
+                            .collection(`Patients`)
+                            .add({
+                                avt: 'https://firebasestorage.googleapis.com/v0/b/melornot-d4395.appspot.com/o/images%2Ficonfinder_unknown_403017.png?alt=media&token=b369a6dc-684a-4835-972d-2453c6bdb872',
+                                uid: credential.user.uid,
+                                email: email,
+                                name: displayName,
+                                position: 'Patients',
+                                status : 'online',                                
+                            })        
                         })         
                         .then(()=>{
                             setIsShowModal(true); 
