@@ -12,12 +12,8 @@ import {View,
 import { ImageBackground } from 'react-native';
 import { AntDesign } from 'react-native-vector-icons';
 
-import {AuthContext} from '../../navigation/AuthProvider';
-
 const{width,height} = Dimensions.get('window');
 export default function HomeScreen(){
-    const {logout, user} = useContext(AuthContext);
-    const [name, setName] = useState("");
     const [news, setnews] = useState([])
     const [loading, setLoading] = useState(true)
     const dataNewsDemo = [

@@ -2,10 +2,7 @@ import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text,Image } from 'react-native';
 import {Title, Button, TextInput } from 'react-native-paper';
 import Modal from 'react-native-modal';
-import { firebase } from '../../firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import FormButton from '../../components/FormButton';
 import FormInput from '../../components/FormInput';
 import {AuthContext} from '../../navigation/AuthProvider';
 import Loading from '../../components/Loading'
@@ -14,7 +11,6 @@ import ModalSucess from '../../components/ModalSuccess';
 export default function HomeScreen(){
     const { logout, 
             user, 
-            userEmail, 
             password, 
             updateProfile,
             isShowDisplayNameModal,
@@ -23,7 +19,6 @@ export default function HomeScreen(){
             isShowPasswordModal,
             setShowPasswordModal,
             updatePasswordProfile, 
-            errDisplayName,
             prevPassword,
             setPrevPassword,
             newPassword,

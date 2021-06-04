@@ -1,11 +1,10 @@
 import React,{useState,useEffect, useContext} from 'react';
-import {StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import {StyleSheet, View, SafeAreaView } from 'react-native';
 import {Title} from 'react-native-paper';
 import {Feather, MaterialIcons } from '@expo/vector-icons';
 import { GiftedChat, Bubble, InputToolbar} from 'react-native-gifted-chat'
 import { firebase } from '../../firebase'
 
-import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import { TouchableOpacity } from 'react-native';
 import Loading from '../../components/Loading'
@@ -150,7 +149,7 @@ export default function ChatScreen({navigation, route}){
                                 size={25}
                                 color='#000'
                             />
-                            )}
+                        )}
                     />
                     }
                 </View>

@@ -3,15 +3,13 @@ import { SafeAreaView, TouchableOpacity, Image, FlatList, StyleSheet, View, Text
 import {Title} from 'react-native-paper';
 import {Feather, MaterialIcons } from '@expo/vector-icons';
 
-import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import { firebase } from '../../firebase';
 import Loading from '../../components/Loading'
 
 export default function HomeScreen({ navigation }){
-    const {logout, user, userUID, loading, setLoading} = useContext(AuthContext);
+    const { loading, setLoading} = useContext(AuthContext);
     const [listDoctors, setListDoctors] = useState(null);
-    const [image, setImage] = useState("");
 
     if(loading){
         return <Loading />;

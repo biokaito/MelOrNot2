@@ -1,5 +1,5 @@
 import React,{useState,useEffect, useContext} from 'react';
-import {StyleSheet, View, Text, TextInput, ScrollView, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import {StyleSheet, View, Text, TextInput, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import {AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
 
@@ -10,7 +10,7 @@ import Loading from '../../components/Loading'
 import ModalFail from '../../components/ModalFail'
 
 export default function HomeScreen({navigation}){
-    const { userEmail,user, userUID} = useContext(AuthContext);
+    const { userEmail} = useContext(AuthContext);
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [isShowModal, setIsShowModal] = useState(false)

@@ -1,8 +1,7 @@
 import React,{useState,useEffect, useContext} from 'react';
-import {StyleSheet, View, Text, TextInput, ScrollView, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import {StyleSheet, View, Text, TextInput, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
 import {AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
-import Modal from 'react-native-modal';
 
 import { firebase } from '../../firebase';
 import {AuthContext} from '../../navigation/AuthProvider';
@@ -13,7 +12,7 @@ import ModalFail from '../../components/ModalFail';
 export default function HomeScreen({navigation}){
     const [loading,setLoading] = useState(false);
     const [isShowModal,setIsShowModal] = useState(false);
-    const {userEmail, user, userUID} = useContext(AuthContext);
+    const {userEmail} = useContext(AuthContext);
     const [data, setData] = useState([])
     useEffect(()=>{
         setLoading(true)

@@ -1,4 +1,3 @@
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons  } from '@expo/vector-icons';
 import React from 'react';
@@ -8,7 +7,6 @@ import ChatNavigator from '../screens/doctors/ChatNavigator';
 import CameraNavigator from '../screens/doctors/CameraNavigator';
 import NewsScreen from '../screens/doctors/BottomTabNews';
 import UserScreen from '../screens/doctors/BottomTabUser';
-const Stack = createStackNavigator();
 
 export default function HomeStack(){
     const Tab = createBottomTabNavigator();

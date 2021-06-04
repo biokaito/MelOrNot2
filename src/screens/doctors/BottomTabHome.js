@@ -1,8 +1,6 @@
-import React,{useState,useEffect, useContext, useRef} from 'react';
+import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, Image } from 'react-native';
-import {Title} from 'react-native-paper';
-import { firebase } from '../../firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { firebase } from '../../firebase'
 
 import FormButton from '../../components/FormButton';
 import FormInput from '../../components/FormInput';
@@ -17,7 +15,7 @@ export default function HomeScreen({navigation}){
     const [isShowModal, setIsShowModal] = useState(false)
     const [data,setData] = useState([])
     useEffect(()=>{
-              setData([])
+        setData([])
     },[])
     if(loading){
         return <Loading />

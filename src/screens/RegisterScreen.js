@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { IconButton, Title } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
-import Modal from 'react-native-modal';
 
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';

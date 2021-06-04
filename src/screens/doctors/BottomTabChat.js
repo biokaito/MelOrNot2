@@ -3,41 +3,46 @@ import { SafeAreaView, TouchableOpacity, Image, FlatList, StyleSheet, View, Text
 import {Title} from 'react-native-paper';
 import {Feather, MaterialIcons } from '@expo/vector-icons';
 
-import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import { firebase } from '../../firebase';
 import Loading from '../../components/Loading'
 
 export default function HomeScreen({ navigation }){
-    const {logout, user, userUID} = useContext(AuthContext);
+    // const {logout, user, userUID} = useContext(AuthContext);
     const [listPatients, setListPatients] = useState(null);
-    const [listFilterPatients, setListFilterPatients] = useState(null);
-    const [listID, setListID] = useState(null);
     const [loading, setLoading] = useState(false);
     
+    const Check = async (id) =>{
+        const querySanp = await firebase.firestore().collection('chatrooms').doc(id).collection('messages').orderBy('createdAt',"desc").get()
+        if (querySanp.docs.length > 0)
+         return id
+    }
     const getPatients = async () => { 
-        await firebase
-        .firestore() 
-        .collection(`Patients`)
-        .onSnapshot(snapshot =>{
-            let data = [];
-            snapshot.forEach(async (doc) =>{                
-                const docid  = doc.data().uid > userUID ? userUID + "-" + doc.data().uid : doc.data().uid + "-" + userUID
-                // console.log(docid)
-                const querySanp = await firebase.firestore().collection('chatrooms').doc(docid).collection('messages').orderBy('createdAt',"desc").get()
-                querySanp.docs.length > 0 && data.push({...doc.data(), id: doc.id})
-                console.log(data)
-            })
-        setListPatients(data);
-          
-        })
+        const querySanp = await firebase.firestore().collection('Patients').get()
+        const allusers = querySanp.docs.map(docSnap=>docSnap.data())
+        setListPatients(allusers);
+
+        // await firebase
+        // .firestore() 
+        // .collection(`Patients`)
+        // .onSnapshot(async (snapshot) =>{
+        //     let data = [];
+        //     await snapshot.forEach(async (doc) =>{                
+        //         const docid  = doc.data().uid > userUID ? userUID + "-" + doc.data().uid : doc.data().uid + "-" + userUID
+        //         // console.log(docid)
+        //         const querySanp = await firebase.firestore().collection('chatrooms').doc(docid).collection('messages').orderBy('createdAt',"desc").get()
+        //         data.push({...doc.data(), id: doc.id})
+        //         // console.log(data)
+        //     })
+        // setListPatients(data);
+        // })
     } 
     
     useEffect(()=>{
         setLoading(true)
         getPatients()
         setLoading(false)
-        console.log(listPatients)
+        // console.log(listPatients)
     },[])
     if(loading){
         return <Loading />;
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
     },
     flatList:{
         marginTop: 30,
-        paddingHorizontal: 30
+        paddingHorizontal: 30,
     },
     myCard:{
        flexDirection:"row",

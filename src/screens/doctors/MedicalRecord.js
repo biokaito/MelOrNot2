@@ -1,11 +1,9 @@
 import React,{useState,useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, TextInput, ScrollView, FlatList, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import {AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
-import Modal from 'react-native-modal';
 
 import { firebase } from '../../firebase';
-import {AuthContext} from '../../navigation/AuthProvider';
 import FormButton from '../../components/FormButton';
 import Loading from '../../components/Loading';
 

@@ -17,8 +17,7 @@ import { SafeAreaView } from 'react-native';
 import Loading from '../../components/Loading'
 
 export default function BottomTabCamera({navigation}){
-    const {userEmail, user, userUID} = useContext(AuthContext);
-    const [result, setResult] = useState("");
+    const {userEmail} = useContext(AuthContext);
     const [imageURL, setImageURL] = useState("");
     const [loading,setLoading] = useState(false)
     

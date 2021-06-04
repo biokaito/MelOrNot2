@@ -1,5 +1,5 @@
-import React,{useState, useContext} from 'react';
-import {StyleSheet, View,Text, Image, ScrollView } from 'react-native';
+import React from 'react';
+import {StyleSheet, View,Text} from 'react-native';
 
 import FormButton from '../components/FormButton';
 import {FlatListSlider} from 'react-native-flatlist-slider';

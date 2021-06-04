@@ -1,7 +1,5 @@
-import React,{useState,useEffect, useContext} from 'react';
+import React,{useEffect, useContext} from 'react';
 import {StyleSheet, View, Text, SafeAreaView,ScrollView,Image, TouchableOpacity } from 'react-native';
-import {Title} from 'react-native-paper';
-import { firebase } from '../../firebase';
 import {MaterialIcons, AntDesign } from '@expo/vector-icons';
 
 import FormButton from '../../components/FormButton';
@@ -13,10 +11,8 @@ import ModalFail from '../../components/ModalFail'
 export default function DetailRecord({route, navigation}){
     const { getData, 
             loading, 
-            setLoading, 
             saveResult,
             imageURL, 
-            setImageURL,
             akiec,
             setAkiec,
             bcc,

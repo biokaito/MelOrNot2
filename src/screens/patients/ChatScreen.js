@@ -5,12 +5,11 @@ import {Feather, MaterialIcons } from '@expo/vector-icons';
 import { GiftedChat, Bubble, InputToolbar} from 'react-native-gifted-chat'
 import { firebase } from '../../firebase'
 
-import FormButton from '../../components/FormButton';
 import {AuthContext} from '../../navigation/AuthProvider';
 import { TouchableOpacity } from 'react-native';
 
 export default function ChatScreen({navigation, route}){
-    const {logout, user, userUID} = useContext(AuthContext);
+    const { userUID} = useContext(AuthContext);
     const [messages, setMessages] = useState([]);
     const {name, uid} = route.params
 

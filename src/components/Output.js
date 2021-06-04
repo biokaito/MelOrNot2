@@ -1,5 +1,4 @@
 
-import { model } from "@tensorflow/tfjs";
 import React from "react";
 import {
   StyleSheet,

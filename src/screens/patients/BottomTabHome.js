@@ -1,4 +1,4 @@
-import React,{useState,useEffect, useContext} from 'react';
+import React,{useState, useContext} from 'react';
 import {View,
         Text,
         StyleSheet,
@@ -15,8 +15,7 @@ import { Icon } from 'react-native-elements';
 import {AuthContext} from '../../navigation/AuthProvider';
 
 export default function HomeScreen( {navigation}){
-    const {userEmail,userUID, user} = useContext(AuthContext);
-    const [name, setName] = useState("");
+    const {user} = useContext(AuthContext);
     const [isSeenWhy,setIsSeenWhy] = useState(false);
     const [isSeenCana,setIsSeenCana] = useState(false);
     const [isSeenHowis,setIsSeenHowis] = useState(false);
