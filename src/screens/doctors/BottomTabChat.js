@@ -18,10 +18,11 @@ export default function HomeScreen({ navigation }){
          return id
     }
     const getPatients = async () => { 
+        setLoading(true)
         const querySanp = await firebase.firestore().collection('Patients').get()
         const allusers = querySanp.docs.map(docSnap=>docSnap.data())
         setListPatients(allusers);
-
+        setLoading(false)
         // await firebase
         // .firestore() 
         // .collection(`Patients`)
@@ -39,9 +40,9 @@ export default function HomeScreen({ navigation }){
     } 
     
     useEffect(()=>{
-        setLoading(true)
+        
         getPatients()
-        setLoading(false)
+        
         // console.log(listPatients)
     },[])
     if(loading){
